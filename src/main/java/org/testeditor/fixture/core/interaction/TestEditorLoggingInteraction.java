@@ -97,8 +97,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 				throw new StopTestException("An unexpected error occurred: " + e.getTargetException().getMessage());
 			}
 		} catch (Exception e) {
-			LOGGER.error(logMessage + e.getMessage());
-			LOGGER.error(Arrays.toString(e.getStackTrace()));
+			LOGGER.error(logMessage + e.getMessage(), e);
 			handleTearDown(instance);
 			if (e instanceof StopTestException) {
 				throw (StopTestException) e;
