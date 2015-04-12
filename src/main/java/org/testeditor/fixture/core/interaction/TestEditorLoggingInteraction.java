@@ -92,7 +92,10 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 				throw (ContinueTestException) e.getCause();
 			} else {
 				LOGGER.error(logMessage + e.getTargetException().getMessage());
-				LOGGER.error(Arrays.toString(e.getTargetException().getStackTrace()));
+				StackTraceElement[] stackTrace = e.getTargetException().getStackTrace();
+				for (StackTraceElement stackTraceElement : stackTrace) {
+					LOGGER.error(stackTraceElement);
+				}
 				handleTearDown(instance);
 				throw new StopTestException("An unexpected error occurred: " + e.getTargetException().getMessage());
 			}
