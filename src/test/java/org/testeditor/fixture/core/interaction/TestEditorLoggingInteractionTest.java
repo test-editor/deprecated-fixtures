@@ -12,6 +12,8 @@
 
 package org.testeditor.fixture.core.interaction;
 
+import static org.junit.Assert.assertEquals;
+
 import java.lang.reflect.Method;
 
 import org.junit.Test;
@@ -69,4 +71,32 @@ public class TestEditorLoggingInteractionTest {
 		Method method = TestClass.class.getMethod("getTestMessageWithArg", new Class[] { String.class });
 		new TestEditorLoggingInteraction().methodInvoke(method, new TestClass(), "test it");
 	}
+
+	@Test
+	public void testGetWaitTimeSeconds() {
+		TestEditorLoggingInteraction loggingInteraction = new TestEditorLoggingInteraction();
+		System.getProperties().remove(TestEditorLoggingInteraction.WAIT_PROPERTY);
+		assertEquals("Expect 0 second", 0, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "1");
+		assertEquals("Expect 1 second", 1000, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "10");
+		assertEquals("Expect 10 seconds", 10000, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "3");
+		assertEquals("Expect 3 seconds", 3000, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "0");
+		assertEquals("Expect 0 seconds", 0, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "hello");
+		assertEquals("Expect 0 seconds", 0, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "3s");
+		assertEquals("Expect 3 seconds", 3000, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "3 s");
+		assertEquals("Expect 3 seconds", 3000, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "300 ms");
+		assertEquals("Expect 300 milliseconds", 300, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "300ms");
+		assertEquals("Expect 300 milliseconds", 300, loggingInteraction.getTimeToWait());
+		System.setProperty(TestEditorLoggingInteraction.WAIT_PROPERTY, "20ms");
+		assertEquals("Expect 300 milliseconds", 20, loggingInteraction.getTimeToWait());
+	}
+
 }

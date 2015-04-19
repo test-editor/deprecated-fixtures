@@ -32,7 +32,7 @@ import fitnesse.slim.fixtureInteraction.DefaultInteraction;
 public class TestEditorLoggingInteraction extends DefaultInteraction {
 	private static final Logger LOGGER = Logger.getLogger(TestEditorLoggingInteraction.class.getName());
 
-	private static final String WAIT_PROPERTY = "waits.after.teststep";
+	public static final String WAIT_PROPERTY = "waits.after.teststep";
 
 	/**
 	 * {@inheritDoc}
@@ -56,18 +56,11 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			postInvoke(method, instance, convertedArgs);
 
 			// wait after test step
-			String waitsAfterTeststep = System.getProperty(WAIT_PROPERTY);
-			if (waitsAfterTeststep != null) {
-				try {
-					int seconds = Integer.parseInt(waitsAfterTeststep);
-					if (seconds > 0) {
-						// property was set and is > 0, so wait
-						waitTime(seconds);
-						LOGGER.debug("Wait " + waitsAfterTeststep + " seconds");
-					}
-				} catch (NumberFormatException e) {
-					LOGGER.error("Wrong value for " + WAIT_PROPERTY + ": " + waitsAfterTeststep);
-				}
+			int timeToWait = getTimeToWait();
+			if (timeToWait > 0) {
+				// property was set and is > 0, so wait
+				waitTime(timeToWait);
+				LOGGER.debug("Wait " + timeToWait + " mili seconds");
 			}
 
 			// analyze result
@@ -238,4 +231,33 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			LOGGER.error(e.getMessage());
 		}
 	}
+
+	/**
+	 * Reads the configuration to extract the time to wait between test steps.
+	 * 
+	 * @return time to wait in mili seconds.
+	 */
+	public int getTimeToWait() {
+		String waitsAfterTeststep = System.getProperty(WAIT_PROPERTY);
+		if (waitsAfterTeststep == null) {
+			return 0;
+		}
+		int scaleFactor = 1000;
+		if (waitsAfterTeststep.trim().endsWith("ms")) {
+			waitsAfterTeststep = waitsAfterTeststep.substring(0, waitsAfterTeststep.length() - 2);
+			scaleFactor = 1;
+		}
+		if (waitsAfterTeststep.trim().endsWith("s")) {
+			waitsAfterTeststep = waitsAfterTeststep.substring(0, waitsAfterTeststep.length() - 1);
+		}
+		int result = 0;
+		try {
+			result = Integer.parseInt(waitsAfterTeststep.trim());
+			result = result * scaleFactor;
+		} catch (NumberFormatException e) {
+			LOGGER.error("Unable to parse: " + waitsAfterTeststep.trim());
+		}
+		return result;
+	}
+
 }
