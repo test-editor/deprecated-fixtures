@@ -72,6 +72,10 @@ public class TestEditorLoggingInteractionTest {
 		new TestEditorLoggingInteraction().methodInvoke(method, new TestClass(), "test it");
 	}
 
+	/**
+	 * Test the creation of the time to wait from configuration property.
+	 * 
+	 */
 	@Test
 	public void testGetWaitTimeSeconds() {
 		TestEditorLoggingInteraction loggingInteraction = new TestEditorLoggingInteraction();
