@@ -224,9 +224,9 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	 * @param seconds
 	 *            seconds to wait
 	 */
-	private void waitTime(long seconds) {
+	private void waitTime(long timeToWait) {
 		try {
-			Thread.sleep(seconds * 1000);
+			Thread.sleep(timeToWait);
 		} catch (InterruptedException e) {
 			LOGGER.error(e.getMessage());
 		}
