@@ -44,7 +44,6 @@ public interface Fixture {
 	 * @param method
 	 * @param instance
 	 * @param convertedArgs
-	 * @return
 	 * @throws InvocationTargetException
 	 * @throws IllegalAccessException
 	 */
@@ -57,7 +56,6 @@ public interface Fixture {
 	 * @param method
 	 * @param instance
 	 * @param convertedArgs
-	 * @return
 	 * @throws InvocationTargetException
 	 * @throws IllegalAccessException
 	 */
