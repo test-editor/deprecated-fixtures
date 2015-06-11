@@ -221,7 +221,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	/**
 	 * Waits the given seconds.
 	 * 
-	 * @param seconds
+	 * @param timeToWait
 	 *            seconds to wait
 	 */
 	private void waitTime(long timeToWait) {
