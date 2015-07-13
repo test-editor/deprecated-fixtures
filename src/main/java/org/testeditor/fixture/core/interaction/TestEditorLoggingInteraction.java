@@ -51,6 +51,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 
 			// execute test step
 			result = super.methodInvoke(method, instance, convertedArgs);
+			LOGGER.debug("result for result: " + result);
 
 			// post invoke
 			postInvoke(method, instance, convertedArgs);
@@ -72,11 +73,13 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			}
 		} catch (InvocationTargetException e) {
 			if (e.getTargetException() instanceof StopTestException) {
-				LOGGER.error(logMessage + e.getTargetException().getMessage());
+				LOGGER.error(logMessage + e.getTargetException().getMessage(), e);
+				LOGGER.error(Arrays.toString(e.getTargetException().getStackTrace()));
 				handleTearDown(instance);
 				throw (StopTestException) e.getTargetException();
 			} else if (e.getCause() instanceof StopTestException) {
-				LOGGER.error(logMessage + e.getCause().getMessage());
+				LOGGER.error(logMessage + e.getCause().getMessage(), e);
+				LOGGER.error(Arrays.toString(e.getTargetException().getStackTrace()));
 				handleTearDown(instance);
 				throw (StopTestException) e.getCause();
 			} else if (e.getTargetException() instanceof ContinueTestException) {
@@ -192,7 +195,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			result = stoppableInstance.tearDown();
 		} catch (Exception e) {
 			String logMessage = "Method : StoppableFixture.tearDown()";
-			LOGGER.error(logMessage + e.getMessage());
+			LOGGER.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);
 		}
 
 		return result;

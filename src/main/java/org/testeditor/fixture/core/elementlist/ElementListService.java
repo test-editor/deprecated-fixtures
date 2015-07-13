@@ -15,6 +15,7 @@ package org.testeditor.fixture.core.elementlist;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -51,13 +52,13 @@ public final class ElementListService {
 	 * @param file
 	 *            the element list file
 	 */
-	private ElementListService(File file) {
+	private ElementListService(String fileName) {
 		FileInputStream fileInputStream = null;
 
 		try {
-			fileInputStream = new FileInputStream(file);
+			fileInputStream = new FileInputStream(fileName);
 			properties = new Properties();
-			properties.load(fileInputStream);
+			properties.load(new InputStreamReader(fileInputStream, "UTF-8"));
 		} catch (Exception e) {
 			LOGGER.error("ElementListService :: FAILED - systemException: " + e.getMessage());
 		} finally {
@@ -88,7 +89,7 @@ public final class ElementListService {
 		}
 
 		if (!instances.containsKey(canonicalPath)) {
-			instances.put(canonicalPath, new ElementListService(file));
+			instances.put(canonicalPath, new ElementListService(filePath));
 		}
 		return instances.get(canonicalPath);
 	}
@@ -110,6 +111,7 @@ public final class ElementListService {
 		String property = properties.getProperty(key);
 
 		if (property == null) {
+			LOGGER.info(key + " was not found in properties " + properties);
 			throw new ElementKeyNotFoundException(key);
 		} else {
 			property = property.trim();
@@ -117,4 +119,5 @@ public final class ElementListService {
 
 		return property;
 	}
+
 }
