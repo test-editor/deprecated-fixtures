@@ -12,7 +12,8 @@
 
 package org.testeditor.fixture.core.utils;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -21,27 +22,28 @@ import org.junit.Test;
  */
 public class StringUtilsTest {
 
-	/**
-	 * Tests the isDigit method.
-	 */
-	@Test
-	public void testIsDigit() {
-		Assert.assertTrue("invalid digit: 12", StringUtils.isDigit("12"));
-		Assert.assertTrue("invalid digit: 1092394", StringUtils.isDigit("1092394"));
-		Assert.assertFalse("invalid digit: 1e", StringUtils.isDigit("1e"));
-		Assert.assertFalse("invalid digit: iiasdfiwefy??wee", StringUtils.isDigit("iiasdfiwefy??wee"));
-		Assert.assertFalse("invalid digit: 1iias2dfiwefy??we5e7", StringUtils.isDigit("1iias2dfiwefy??we5e7"));
-	}
+    /**
+     * Tests the isDigit method.
+     */
+    @Test
+    public void testIsDigit() {
+        assertTrue("invalid digit: 12", StringUtils.isDigit("12"));
+        assertTrue("invalid digit: 1092394", StringUtils.isDigit("1092394"));
+        assertFalse("invalid digit: 1e", StringUtils.isDigit("1e"));
+        assertFalse("invalid digit: iiasdfiwefy??wee", StringUtils.isDigit("iiasdfiwefy??wee"));
+        assertFalse("invalid digit: 1iias2dfiwefy??we5e7", StringUtils.isDigit("1iias2dfiwefy??we5e7"));
+    }
 
-	/**
-	 * Tests the isXpath method.
-	 */
-	@Test
-	public void isXpath() {
-		Assert.assertTrue("Is not a XPath: //div[contains(@id,'loginDialog.textUsername')]/div/input",
-				StringUtils.isXPath("//div[contains(@id,'loginDialog.textUsername')]/div/input"));
-		Assert.assertFalse("Is a XPath: filter.buttonSearch", StringUtils.isXPath("filter.buttonSearch"));
-		Assert.assertFalse("Is a XPath", StringUtils.isXPath(""));
-		Assert.assertFalse(StringUtils.isXPath(null));
-	}
+    /**
+     * Tests the isXpath method.
+     */
+    @Test
+    public void isXpath() {
+        assertTrue("Is not a XPath: //div[contains(@id,'loginDialog.textUsername')]/div/input",
+                StringUtils.isXPath("//div[contains(@id,'loginDialog.textUsername')]/div/input"));
+        assertFalse("Is a XPath: filter.buttonSearch", StringUtils.isXPath("filter.buttonSearch"));
+        assertFalse("Is a XPath", StringUtils.isXPath(""));
+        assertFalse(StringUtils.isXPath(null));
+    }
+
 }

@@ -12,8 +12,6 @@
 
 package org.testeditor.fixture.core.utils;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
 import org.testeditor.fixture.core.exceptions.ElementKeyNotFoundException;
 import org.testeditor.fixture.core.exceptions.StopTestException;
@@ -29,7 +27,6 @@ public class ExceptionUtilsTest {
 	@Test(expected = StopTestException.class)
 	public void testHandleNoSuchElementException() {
 		ExceptionUtils.handleNoSuchElementException("testLocator", new Exception());
-		Assert.fail("exception wasn't thrown");
 	}
 
 	/**
@@ -38,6 +35,6 @@ public class ExceptionUtilsTest {
 	@Test(expected = StopTestException.class)
 	public void testHandleElementKeyNotFoundException() {
 		ExceptionUtils.handleElementKeyNotFoundException("testKey", new ElementKeyNotFoundException("testKey"));
-		Assert.fail("exception wasn't thrown");
 	}
+
 }
