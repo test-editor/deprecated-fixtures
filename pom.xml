@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.testeditor.fixture</groupId>
 	<artifactId>core-fixture</artifactId>
-	<version>1.8.1</version>
+	<version>1.8.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A core fixture will be used by a concrete test driver like e.g. web-fixture.</description>
