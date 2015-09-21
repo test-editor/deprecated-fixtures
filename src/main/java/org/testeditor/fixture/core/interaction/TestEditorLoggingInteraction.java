@@ -12,9 +12,12 @@
 
 package org.testeditor.fixture.core.interaction;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.testeditor.fixture.core.exceptions.ContinueTestException;
@@ -30,9 +33,25 @@ import fitnesse.slim.fixtureInteraction.DefaultInteraction;
  * Test-Editor is using this logging while executing any tests.
  */
 public class TestEditorLoggingInteraction extends DefaultInteraction {
-	private static final Logger LOGGER = Logger.getLogger(TestEditorLoggingInteraction.class.getName());
+	private static final Logger logger = Logger.getLogger(TestEditorLoggingInteraction.class.getName());
 
 	public static final String WAIT_PROPERTY = "waits.after.teststep";
+
+	static private List<StoppableFixture> stoppableFixtures = new ArrayList<StoppableFixture>();
+
+	@Override
+	public Object newInstance(Constructor<?> constructor, Object... initargs) throws InvocationTargetException,
+			InstantiationException, IllegalAccessException {
+		// TODO Auto-generated method stub
+		Object object = super.newInstance(constructor, initargs);
+
+		if (object instanceof StoppableFixture) {
+			logger.debug("adding object of type " + object.getClass().getName() + " to stoppableFixtures ");
+			stoppableFixtures.add((StoppableFixture) object);
+		}
+
+		return object;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -40,6 +59,8 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	@Override
 	public Object methodInvoke(Method method, Object instance, Object... convertedArgs) throws IllegalAccessException {
 
+		logger.trace("call to methodInvoke for method " + method.getName() + " for class "
+				+ instance.getClass().getName());
 		Object result = null;
 
 		String logMessage = createLogMessage(method, convertedArgs);
@@ -51,7 +72,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 
 			// execute test step
 			result = super.methodInvoke(method, instance, convertedArgs);
-			LOGGER.debug("result for result: " + result);
+			logger.debug("result for result: " + result);
 
 			// post invoke
 			postInvoke(method, instance, convertedArgs);
@@ -61,43 +82,43 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			if (timeToWait > 0) {
 				// property was set and is > 0, so wait
 				waitTime(timeToWait);
-				LOGGER.debug("Wait " + timeToWait + " mili seconds");
+				logger.debug("Wait " + timeToWait + " mili seconds");
 			}
 
 			// analyze result
 			if (result == null || !(result instanceof Boolean) || (Boolean) result) {
-				LOGGER.debug(logMessage);
+				logger.debug(logMessage);
 			} else {
 				// only boolean results with "false" are logged on error level
-				LOGGER.error(logMessage);
+				logger.error(logMessage);
 			}
 		} catch (InvocationTargetException e) {
 			if (e.getTargetException() instanceof StopTestException) {
-				LOGGER.error(logMessage + e.getTargetException().getMessage(), e);
-				LOGGER.error(Arrays.toString(e.getTargetException().getStackTrace()));
-				handleTearDown(instance);
+				logger.error(logMessage + e.getTargetException().getMessage(), e);
+				logger.error(Arrays.toString(e.getTargetException().getStackTrace()));
+				tearDownAllFixtures();
 				throw (StopTestException) e.getTargetException();
 			} else if (e.getCause() instanceof StopTestException) {
-				LOGGER.error(logMessage + e.getCause().getMessage(), e);
-				LOGGER.error(Arrays.toString(e.getTargetException().getStackTrace()));
-				handleTearDown(instance);
+				logger.error(logMessage + e.getCause().getMessage(), e);
+				logger.error(Arrays.toString(e.getTargetException().getStackTrace()));
+				tearDownAllFixtures();
 				throw (StopTestException) e.getCause();
 			} else if (e.getTargetException() instanceof ContinueTestException) {
 				throw (ContinueTestException) e.getTargetException();
 			} else if (e.getCause() instanceof ContinueTestException) {
 				throw (ContinueTestException) e.getCause();
 			} else {
-				LOGGER.error(logMessage + e.getTargetException().getMessage());
+				logger.error(logMessage + e.getTargetException().getMessage());
 				StackTraceElement[] stackTrace = e.getTargetException().getStackTrace();
 				for (StackTraceElement stackTraceElement : stackTrace) {
-					LOGGER.error(stackTraceElement);
+					logger.error(stackTraceElement);
 				}
-				handleTearDown(instance);
+				tearDownAllFixtures();
 				throw new StopTestException("An unexpected error occurred: " + e.getTargetException().getMessage());
 			}
 		} catch (Exception e) {
-			LOGGER.error(logMessage + e.getMessage(), e);
-			handleTearDown(instance);
+			logger.error(logMessage + e.getMessage(), e);
+			tearDownAllFixtures();
 			if (e instanceof StopTestException) {
 				throw (StopTestException) e;
 			} else if (e instanceof ContinueTestException) {
@@ -184,21 +205,20 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	 *         <code>StoppableFixture</code> or instance returns
 	 *         <code>false</code> from method <code>tearDown()</code>.
 	 */
-	private boolean handleTearDown(Object instance) {
-		boolean result = false;
-		if (instance == null || !(instance instanceof StoppableFixture)) {
-			return false;
-		}
-		StoppableFixture stoppableInstance = (StoppableFixture) instance;
+	public static void tearDownAllFixtures() {
 
-		try {
-			result = stoppableInstance.tearDown();
-		} catch (Exception e) {
-			String logMessage = "Method : StoppableFixture.tearDown()";
-			LOGGER.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);
-		}
+		for (StoppableFixture object : stoppableFixtures) {
 
-		return result;
+			try {
+				logger.debug("calling tearDwon on object of type " + object.getClass().getName()
+						+ " stoppableFixtures ");
+				object.tearDown();
+			} catch (Throwable e) {
+				String logMessage = "Method : StoppableFixture.tearDown()";
+				logger.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);
+			}
+		}
+		stoppableFixtures.clear();
 	}
 
 	/**
@@ -231,7 +251,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 		try {
 			Thread.sleep(timeToWait);
 		} catch (InterruptedException e) {
-			LOGGER.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -258,7 +278,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			result = Integer.parseInt(waitsAfterTeststep.trim());
 			result = result * scaleFactor;
 		} catch (NumberFormatException e) {
-			LOGGER.error("Unable to parse: " + waitsAfterTeststep.trim());
+			logger.error("Unable to parse: " + waitsAfterTeststep.trim());
 		}
 		return result;
 	}

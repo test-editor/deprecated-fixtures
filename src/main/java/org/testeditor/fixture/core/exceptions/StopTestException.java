@@ -12,6 +12,7 @@
 
 package org.testeditor.fixture.core.exceptions;
 
+import org.apache.log4j.Logger;
 
 /**
  * General exception which stops the FitNesse test and shows an error message to
@@ -21,6 +22,7 @@ package org.testeditor.fixture.core.exceptions;
 public class StopTestException extends RuntimeException {
 
 	private static final long serialVersionUID = 2142474544753902692L;
+	private static final Logger LOGGER = Logger.getLogger(StopTestException.class);
 
 	/**
 	 * Initializes the exception.
@@ -52,5 +54,15 @@ public class StopTestException extends RuntimeException {
 	 */
 	public StopTestException(Throwable throwable) {
 		super("message:<<" + ExceptionMessageHelper.cleanMessage(throwable.getMessage()) + ">>", throwable);
+	}
+
+	public String getCleanMessage() {
+		LOGGER.debug("call to getClanMessage");
+		if (getMessage().length() > "message:<<>>".length()) {
+			LOGGER.debug("call to clean message '"
+					+ getMessage().substring("message:<<".length(), getMessage().length() - 2) + "'");
+			return getMessage().substring("message:<<".length(), getMessage().length() - 2);
+		}
+		return getMessage();
 	}
 }
