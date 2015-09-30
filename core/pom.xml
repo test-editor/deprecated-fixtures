@@ -3,9 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.testeditor.fixture</groupId>
+	<parent>
+		<groupId>org.testeditor.fixture</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.8.2-SNAPSHOT</version>
+		<relativePath>org.testeditor.fixture.parent</relativePath>
+	</parent>
+
 	<artifactId>build-core</artifactId>
-	<version>1.8.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
@@ -14,5 +19,18 @@
 		<module>org.testeditor.fixture.parent</module>
 		<module>org.testeditor.fixture.core</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.2</version>
+				<configuration>
+					<tagNameFormat>core-@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
