@@ -47,9 +47,9 @@
 	</developers>
 
 	<scm>
-		<connection>scm:git:https://github.com/test-editor/fixture</connection>
-		<developerConnection>scm:git:https://github.com/test-editor/fixture</developerConnection>
-		<url>https://github.com/test-editor/fixture</url>
+		<connection>scm:git:https://github.com/test-editor/fixtures</connection>
+		<developerConnection>scm:git:https://github.com/test-editor/fixtures</developerConnection>
+		<url>https://github.com/test-editor/fixtures</url>
 	</scm>
 
 	<properties>
