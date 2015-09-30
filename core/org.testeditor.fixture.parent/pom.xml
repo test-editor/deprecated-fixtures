@@ -55,6 +55,7 @@
 	<properties>
 		<java.version>1.7</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<checkstyle-config>${project.parent.basedir}/checkstyle.xml</checkstyle-config>
 	</properties>
 

@@ -4,15 +4,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.testeditor.fixture</groupId>
-	<artifactId>build-core</artifactId>
-	<version>1.8.2-SNAPSHOT</version>
+	<artifactId>build-all</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>${project.groupId}:${project.artifactId}</name>
 
 	<modules>
-		<module>org.testeditor.fixture.parent</module>
-		<module>org.testeditor.fixture.core</module>
+		<module>core</module>
 	</modules>
 
 </project>
