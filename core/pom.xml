@@ -15,6 +15,10 @@
 
 	<name>${project.groupId}:${project.artifactId}</name>
 
+	<scm>
+		<developerConnection>scm:git:https://github.com/test-editor/fixtures</developerConnection>
+	</scm>
+
 	<modules>
 		<module>org.testeditor.fixture.parent</module>
 		<module>org.testeditor.fixture.core</module>
