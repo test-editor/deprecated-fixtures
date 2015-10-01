@@ -11,9 +11,13 @@
 
 	<artifactId>core-fixture</artifactId>
 	<packaging>jar</packaging>
-	
+
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A core fixture will be used by a concrete test driver like e.g. web-fixture.</description>
 	<url>http://testeditor.org</url>
+
+	<properties>
+		<bintray.package>core-fixture</bintray.package>
+  </properties>
 
 </project>

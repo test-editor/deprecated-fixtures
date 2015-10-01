@@ -50,32 +50,50 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<checkstyle-config>${project.parent.basedir}/checkstyle.xml</checkstyle-config>
+		<bintray.repo>test-editor/Fixtures</bintray.repo>
+		<junit.version>4.12</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+		<fitnesse.version>20121220</fitnesse.version>
+		<maven.compiler.version>3.2</maven.compiler.version>
+		<maven.releaseplugin.version>2.5.2</maven.releaseplugin.version>
+		<maven.sourceplugin.version>2.4</maven.sourceplugin.version>
+		<maven.javadocplugin.version>2.10.3</maven.javadocplugin.version>
+		<jacoco.version>0.7.2.201409121644</jacoco.version>
+		<maven.checkstyleplugin.version>2.9.1</maven.checkstyleplugin.version>
+		<maven.findbugsplugin.version>3.0.0</maven.findbugsplugin.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
+			<version>${log4j.version}</version>
 		</dependency>
-		<!-- TODO do we need this? -->
 		<dependency>
 			<groupId>org.fitnesse</groupId>
 			<artifactId>fitnesse</artifactId>
 			<scope>compile</scope>
-			<version>20121220</version>
+			<version>${fitnesse.version}</version>
 		</dependency>
 	</dependencies>
 
 	<distributionManagement>
-		<!-- TODO bintray -->
-	</distributionManagement>
+		<repository>
+      <id>bintray</id>
+      <url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package}/;publish=1</url>
+		</repository>
+		<snapshotRepository>
+      <id>snapshots</id>
+      <name>libs-snapshot</name>
+      <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
+		</snapshotRepository>
+</distributionManagement>
 
 	<build>
 		<pluginManagement>
@@ -83,7 +101,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.2</version>
+					<version>${maven.compiler.version}</version>
 					<configuration>
 						<source>${java.version}</source>
 						<target>${java.version}</target>
@@ -92,7 +110,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.2</version>
+					<version>${maven.releaseplugin.version}</version>
 					<configuration>
 						<autoVersionSubmodules>true</autoVersionSubmodules>
 					</configuration>
@@ -103,7 +121,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.4</version>
+				<version>${maven.sourceplugin.version}</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -116,7 +134,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.3</version>
+				<version>${maven.javadocplugin.version}</version>
 				<configuration>
 					<charset>${project.build.sourceEncoding}</charset>
 				</configuration>
@@ -132,7 +150,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.2.201409121644</version>
+				<version>${jacoco.version}</version>
 				<configuration>
 					<includes>
 						<include>*</include>
@@ -150,7 +168,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.9.1</version>
+				<version>${maven.checkstyleplugin.version}</version>
 				<configuration>
 					<configLocation>${checkstyle-config}</configLocation>
 					<sourceDirectory>${project.basedir}/src</sourceDirectory>
@@ -159,7 +177,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>${maven.findbugsplugin.version}</version>
 				<configuration>
 					<findbugsXmlOutput>true</findbugsXmlOutput>
 					<failOnError>false</failOnError>
