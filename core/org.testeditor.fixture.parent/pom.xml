@@ -51,6 +51,7 @@
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<checkstyle-config>${project.parent.basedir}/checkstyle.xml</checkstyle-config>
 		<bintray.repo>test-editor/Fixtures</bintray.repo>
+		<bintray.package>core-fixture</bintray.package>
 		<junit.version>4.12</junit.version>
 		<log4j.version>1.2.17</log4j.version>
 		<fitnesse.version>20121220</fitnesse.version>
@@ -86,7 +87,7 @@
 	<distributionManagement>
 		<repository>
       <id>bintray</id>
-      <url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package}/;publish=1</url>
+      <url>https://api.bintray.com/content/${bintray.repo}/${bintray.package}/;publish=1</url>
 		</repository>
 		<snapshotRepository>
       <id>snapshots</id>
