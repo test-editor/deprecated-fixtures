@@ -46,11 +46,11 @@
 	</developers>
 
 	<properties>
-		<rootPath>${basedir}</rootPath>
+		<build.version>1.0</build.version>
 		<java.version>1.7</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-		<checkstyle-config>${rootPath}/org.testeditor.fixture.parent/checkstyle.xml</checkstyle-config>
+		<checkstyle-config>checkstyle.xml</checkstyle-config>
 		<bintray.repo>test-editor/Fixtures</bintray.repo>
 		<bintray.package>core-fixture</bintray.package>
 		<junit.version>4.12</junit.version>
@@ -95,7 +95,7 @@
       <name>libs-snapshot</name>
       <url>https://oss.jfrog.org/artifactory/oss-snapshot-local</url>
 		</snapshotRepository>
-</distributionManagement>
+    </distributionManagement>
 
 	<build>
 		<pluginManagement>
@@ -171,8 +171,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${maven.checkstyleplugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.testeditor.fixture</groupId>
+						<artifactId>build</artifactId>
+						<version>1.0</version>
+					</dependency>
+				</dependencies>
 				<configuration>
-					<configLocation>${checkstyle-config}</configLocation>
+					<configLocation>checkstyle.xml</configLocation>
 					<sourceDirectory>${project.basedir}/src</sourceDirectory>
 				</configuration>
 			</plugin>
