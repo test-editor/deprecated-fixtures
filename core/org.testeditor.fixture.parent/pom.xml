@@ -179,7 +179,7 @@
 					</dependency>
 				</dependencies>
 				<configuration>
-					<configLocation>checkstyle.xml</configLocation>
+					<configLocation>${checkstyle-config}</configLocation>
 					<sourceDirectory>${project.basedir}/src</sourceDirectory>
 				</configuration>
 			</plugin>

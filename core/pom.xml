@@ -26,7 +26,8 @@
 
 	<properties>
 		<maven.deploy.skip>true</maven.deploy.skip>
-	</properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 	<build>
 		<plugins>
