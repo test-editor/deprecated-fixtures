@@ -89,7 +89,7 @@
 	<distributionManagement>
 		<repository>
       <id>bintray</id>
-      <url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package};publish=1</url>
+      <url>https://api.bintray.com/maven/${bintray.subject}/${bintray.repo}/${bintray.package}/;publish=0</url>
 		</repository>
 		<snapshotRepository>
       <id>snapshots</id>
