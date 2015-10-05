@@ -17,7 +17,6 @@
 	<url>http://testeditor.org</url>
 
 	<properties>
-		<bintray.package>core-fixture</bintray.package>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
