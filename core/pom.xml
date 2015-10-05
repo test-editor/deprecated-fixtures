@@ -30,13 +30,4 @@
         <checkstyle-config>${basedir}/../org.testeditor.fixture.parent/checkstyle.xml</checkstyle-config>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
