@@ -52,7 +52,7 @@
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<checkstyle-config>checkstyle.xml</checkstyle-config>
 		<bintray.subject>srvte</bintray.subject>
-		<bintray.repo>test-editor/Fixtures</bintray.repo>
+		<bintray.repo>Fixtures</bintray.repo>
 		<bintray.package>parent</bintray.package>
 		<junit.version>4.12</junit.version>
 		<log4j.version>1.2.17</log4j.version>
