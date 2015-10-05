@@ -51,7 +51,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
 		<checkstyle-config>checkstyle.xml</checkstyle-config>
-		<bintray.subject>srvte</bintray.subject>
+		<bintray.subject>test-editor</bintray.subject>
 		<bintray.repo>Fixtures</bintray.repo>
 		<bintray.package>parent</bintray.package>
 		<junit.version>4.12</junit.version>
