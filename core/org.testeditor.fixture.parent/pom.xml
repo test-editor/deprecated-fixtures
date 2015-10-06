@@ -213,7 +213,7 @@
                     <artifactId>maven-scm-plugin</artifactId>
                     <version>${maven.scmplugin.version}</version>
                     <configuration>
-                        <tag>parent-${project.version}</tag>
+                        <tag>core-${project.version}</tag>
                     </configuration>
                 </plugin>
 			</plugins>
