@@ -17,6 +17,8 @@ package org.testeditor.fixture.core.utils;
  */
 public final class StringUtils {
 
+	// This is a sample change for testing the release process
+
 	/**
 	 * Don't create any objects of this util class.
 	 */
