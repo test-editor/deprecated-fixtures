@@ -15,8 +15,9 @@
 	<name>${project.groupId}:${project.artifactId}</name>
 
 	<scm>
-		<developerConnection>scm:git:https://github.com/test-editor/fixtures</developerConnection>
-	  <tag>HEAD</tag>
+		<connection>scm:git:https://github.com/test-editor/fixtures</connection>
+        <developerConnection>scm:git:https://github.com/test-editor/fixtures</developerConnection>
+	    <tag>HEAD</tag>
   </scm>
 
 	<modules>
