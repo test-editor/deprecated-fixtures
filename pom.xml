@@ -13,6 +13,7 @@
 	<modules>
 		<module>core</module>
         <module>swing</module>
+        <module>soap</module>
 	</modules>
 
 	<properties>
