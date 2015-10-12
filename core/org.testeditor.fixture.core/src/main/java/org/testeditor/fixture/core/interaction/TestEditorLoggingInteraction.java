@@ -40,10 +40,12 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	static private List<StoppableFixture> stoppableFixtures = new ArrayList<StoppableFixture>();
 
 	@Override
-	public Object newInstance(Constructor<?> constructor, Object... initargs) throws InvocationTargetException,
-			InstantiationException, IllegalAccessException {
+	public Object newInstance(Constructor<?> constructor, Object... initargs)
+			throws InvocationTargetException, InstantiationException, IllegalAccessException {
 		// TODO Auto-generated method stub
 		Object object = super.newInstance(constructor, initargs);
+
+		logger.debug("call to newInstance for " + constructor.getName());
 
 		if (object instanceof StoppableFixture) {
 			logger.debug("adding object of type " + object.getClass().getName() + " to stoppableFixtures ");
@@ -59,8 +61,8 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	@Override
 	public Object methodInvoke(Method method, Object instance, Object... convertedArgs) throws IllegalAccessException {
 
-		logger.trace("call to methodInvoke for method " + method.getName() + " for class "
-				+ instance.getClass().getName());
+		logger.info(
+				"call to methodInvoke for method " + method.getName() + " for class " + instance.getClass().getName());
 		Object result = null;
 
 		String logMessage = createLogMessage(method, convertedArgs);
@@ -96,12 +98,12 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			if (e.getTargetException() instanceof StopTestException) {
 				logger.error(logMessage + e.getTargetException().getMessage(), e);
 				logger.error(Arrays.toString(e.getTargetException().getStackTrace()));
-				tearDownAllFixtures();
+				tearDownAllFixtures(true);
 				throw (StopTestException) e.getTargetException();
 			} else if (e.getCause() instanceof StopTestException) {
 				logger.error(logMessage + e.getCause().getMessage(), e);
 				logger.error(Arrays.toString(e.getTargetException().getStackTrace()));
-				tearDownAllFixtures();
+				tearDownAllFixtures(true);
 				throw (StopTestException) e.getCause();
 			} else if (e.getTargetException() instanceof ContinueTestException) {
 				throw (ContinueTestException) e.getTargetException();
@@ -113,12 +115,12 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 				for (StackTraceElement stackTraceElement : stackTrace) {
 					logger.error(stackTraceElement);
 				}
-				tearDownAllFixtures();
+				tearDownAllFixtures(true);
 				throw new StopTestException("An unexpected error occurred: " + e.getTargetException().getMessage());
 			}
 		} catch (Exception e) {
 			logger.error(logMessage + e.getMessage(), e);
-			tearDownAllFixtures();
+			tearDownAllFixtures(true);
 			if (e instanceof StopTestException) {
 				throw (StopTestException) e;
 			} else if (e instanceof ContinueTestException) {
@@ -165,8 +167,8 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	private void postInvoke(Method method, Object instance, Object[] convertedArgs) throws InvocationTargetException,
-			IllegalAccessException {
+	private void postInvoke(Method method, Object instance, Object[] convertedArgs)
+			throws InvocationTargetException, IllegalAccessException {
 
 		if (instance instanceof Fixture) {
 
@@ -183,8 +185,8 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	 * @throws IllegalAccessException
 	 * @throws InvocationTargetException
 	 */
-	private void preInvoke(Method method, Object instance, Object[] convertedArgs) throws InvocationTargetException,
-			IllegalAccessException {
+	private void preInvoke(Method method, Object instance, Object[] convertedArgs)
+			throws InvocationTargetException, IllegalAccessException {
 
 		if (instance instanceof Fixture) {
 
@@ -206,13 +208,17 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	 *         <code>false</code> from method <code>tearDown()</code>.
 	 */
 	public static void tearDownAllFixtures() {
+		tearDownAllFixtures(false);
+	}
+
+	public static void tearDownAllFixtures(boolean fail) {
 
 		for (StoppableFixture object : stoppableFixtures) {
 
 			try {
-				logger.debug("calling tearDwon on object of type " + object.getClass().getName()
-						+ " stoppableFixtures ");
-				object.tearDown();
+				logger.debug(
+						"calling tearDwon on object of type " + object.getClass().getName() + " stoppableFixtures ");
+				object.tearDown(fail);
 			} catch (Throwable e) {
 				String logMessage = "Method : StoppableFixture.tearDown()";
 				logger.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);

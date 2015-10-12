@@ -29,6 +29,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.Select;
 import org.testeditor.fixture.core.elementlist.ElementListService;
@@ -143,7 +144,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 *            path to the browser
 	 * @return true, if browser starts successful, otherwise false
 	 */
-	public void openBrowser(String browserName, String browserPath) {
+	public boolean openBrowser(String browserName, String browserPath) {
 
 		String osName = System.getProperty("os.name");
 		LOGGER.debug("open browser IN PROCESS - operating System: " + osName + ", browserName: " + browserName);
@@ -154,6 +155,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 				openFirefox(osName, browserPath);
 			} else if ("ie".equalsIgnoreCase(browserName)) {
 				DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
+				cap.setCapability(CapabilityType.TAKES_SCREENSHOT, false);
 				cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, "true");
 				webDriver = new InternetExplorerDriver(cap);
 			} else if ("chrome".equalsIgnoreCase(browserName)) {
@@ -172,6 +174,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 			throw new StopTestException(e.getMessage());
 		}
 
+		return true;
 	}
 
 	/**
@@ -621,6 +624,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 				throw new StopTestException("Value wasn't inserted correctly");
 			}
 		}
+
 	}
 
 	/**
@@ -952,12 +956,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * 
 	 * @return always true to show inside FitNesse a positive result
 	 */
-	public void closeBrowser() {
+	public boolean closeBrowser() {
 		// checks if Browser is Chrome because Chromedriver does not function
 		// with Close-Method of WebDriver
-		if (webDriver == null) {
-			return;
-		}
 		if (webDriver instanceof ChromeDriver) {
 			webDriver.quit();
 		} else {
@@ -973,7 +974,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 				// NFA - at least Firefox portable is down after close()
 			}
 		}
-		return;
+		return true;
 	}
 
 	/**
@@ -1381,7 +1382,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 	}
 
 	@Override
-	public void tearDown() {
+	public void tearDown(boolean failure) {
 		closeBrowser();
 	}
 

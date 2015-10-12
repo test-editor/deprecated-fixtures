@@ -349,8 +349,8 @@ public class WebFixtureTest {
 			fixture.pressSpecialKeyOnElement("OKEY", "user");
 		} catch (StopTestException e) {
 			// OKEY is not a valid key
-			assertTrue(e.getMessage().contains(
-					"The specified key 'OKEY' is invalid and could not be found in selenium enum Keys!"));
+			assertTrue(e.getMessage()
+					.contains("The specified key 'OKEY' is invalid and could not be found in selenium enum Keys!"));
 		}
 
 		try {
@@ -763,7 +763,7 @@ public class WebFixtureTest {
 		startWebApplication(WEB_INDEX_PAGE);
 
 		// close browser
-		fixture.tearDown();
+		fixture.tearDown(false);
 
 		try {
 			fixture.navigateToUrl(WEB_INDEX_PAGE.toString());

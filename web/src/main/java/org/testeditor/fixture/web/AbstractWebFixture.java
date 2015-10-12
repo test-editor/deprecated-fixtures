@@ -1196,7 +1196,7 @@ public abstract class AbstractWebFixture implements StoppableFixture, Fixture {
 	}
 
 	@Override
-	public void tearDown() {
+	public void tearDown(boolean failer) {
 		closeBrowser();
 	}
 

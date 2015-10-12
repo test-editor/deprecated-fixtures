@@ -23,6 +23,7 @@ public interface StoppableFixture {
 	 * being stopped due to exceptions or the user manually canceling its
 	 * execution.
 	 * 
+	 * @return <code>true</code> on success; <code>false</code> otherwise
 	 */
-	void tearDown();
+	void tearDown(boolean fail);
 }
