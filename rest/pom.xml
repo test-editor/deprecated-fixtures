@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>rest-fixture</artifactId>
-	<version>1.8.1-SNAPSHOT</version>
+	<version>2.5.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Fixture used for testing REST applications.</description>
