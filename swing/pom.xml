@@ -21,6 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<checkstyle-config>${basedir}/../core/org.testeditor.fixture.parent/checkstyle.xml</checkstyle-config>
+		<bintray.package>swing-fixture</bintray.package>
 		<maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
 		<core.fixture.version>${parent.version}</core.fixture.version>
 		<fest.swing.version>1.2.1</fest.swing.version>
