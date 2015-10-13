@@ -23,7 +23,7 @@
         <checkstyle-config>${basedir}/../core/org.testeditor.fixture.parent/checkstyle.xml</checkstyle-config>
 		<bintray.package>rest-fixture</bintray.package>
         <maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
-        <core.fixture.version>${parent.version}</core.fixture.version>
+        <core.fixture.version>${project.parent.version}</core.fixture.version>
     </properties>
 
     <dependencyManagement>
