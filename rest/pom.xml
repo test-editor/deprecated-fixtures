@@ -10,6 +10,7 @@
 		<relativePath>../core/org.testeditor.fixture.parent</relativePath>
 	</parent>
 
+	<groupId>org.testeditor.fixture</groupId>
 	<artifactId>rest-fixture</artifactId>
 	<version>2.5.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
