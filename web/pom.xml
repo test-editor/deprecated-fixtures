@@ -6,13 +6,13 @@
 	<parent>
 		<groupId>org.testeditor.fixture</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.5.1-SNAPSHOT</version>
+		<version>2.5.0</version>
 		<relativePath>../core/org.testeditor.fixture.parent</relativePath>
 	</parent>
 
 	<groupId>org.testeditor.fixture</groupId>
 	<artifactId>web-fixture</artifactId>
-	<version>2.5.0-SNAPSHOT</version>
+	<version>2.5.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Fixture used for testing WEB applications.</description>
@@ -21,6 +21,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<checkstyle-config>${basedir}/../core/org.testeditor.fixture.parent/checkstyle.xml</checkstyle-config>
+		<bintray.package>web-fixture</bintray.package>
 		<maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
 		<core.fixture.version>${project.parent.version}</core.fixture.version>
         <selenium.java.version>2.35.0</selenium.java.version>
@@ -129,6 +130,18 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+		    <plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-scm-plugin</artifactId>
+					<version>${maven.scmplugin.version}</version>
+					<configuration>
+						<tag>web-${project.version}</tag>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

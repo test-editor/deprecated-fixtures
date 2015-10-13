@@ -10,6 +10,7 @@
 		<relativePath>../core/org.testeditor.fixture.parent</relativePath>
 	</parent>
 
+	<groupId>org.testeditor.fixture</groupId>
 	<artifactId>swing-fixture</artifactId>
 	<version>2.5.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -21,8 +22,9 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<checkstyle-config>${basedir}/../core/org.testeditor.fixture.parent/checkstyle.xml</checkstyle-config>
+		<bintray.package>swing-fixture</bintray.package>
 		<maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
-		<core.fixture.version>${parent.version}</core.fixture.version>
+		<core.fixture.version>${project.parent.version}</core.fixture.version>
 		<fest.swing.version>1.2.1</fest.swing.version>
 		<fest.assert.version>1.4</fest.assert.version>
 		<fest.reflect.version>1.2</fest.reflect.version>
@@ -68,6 +70,18 @@
 	</dependencyManagement>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-scm-plugin</artifactId>
+					<version>${maven.scmplugin.version}</version>
+					<configuration>
+						<tag>swing-${project.version}</tag>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
