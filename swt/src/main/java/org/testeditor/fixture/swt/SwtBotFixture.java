@@ -633,7 +633,7 @@ public class SwtBotFixture implements StoppableFixture, Fixture {
 	 *            identifier of the StyledText
 	 * @param key
 	 *            the key to press as the string-representing of the
-	 *            {@link Keystrokes}
+	 *            Keystrokes
 	 * @return true, after sending the key
 	 */
 	public boolean pressShortcutOfStyledText(final String locator, final String key) {
@@ -1370,10 +1370,10 @@ public class SwtBotFixture implements StoppableFixture, Fixture {
 	}
 
 	@Override
-	public boolean tearDown() {
+	public void tearDown() {
 		LOGGER.info("TearDown to cleanup the AUT.");
 		stopApplication();
-		return true;
+		//return true;
 	}
 
 	@Override
