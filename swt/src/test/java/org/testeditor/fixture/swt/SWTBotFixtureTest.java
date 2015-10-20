@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -27,6 +28,7 @@ import org.junit.Test;
  */
 public class SWTBotFixtureTest {
 
+	@Ignore
 	@Test
 	public void testMarkForRunningApplication() throws Exception {
 		final Set<String> monitor = new HashSet<String>();
