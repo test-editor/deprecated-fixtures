@@ -18,6 +18,7 @@ import org.fest.swing.edt.FailOnThreadViolationRepaintManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -59,6 +60,7 @@ public class SwingFixtureTest {
     }
 
 
+    @Test
     public void textTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -70,6 +72,7 @@ public class SwingFixtureTest {
     }
 
 
+    @Test
     public void comboBoxTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -82,6 +85,7 @@ public class SwingFixtureTest {
     }
 
 
+    @Test
     public void checkBoxTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -103,6 +107,7 @@ public class SwingFixtureTest {
     }
 
 
+    @Test
     public void radioButtonTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -116,6 +121,7 @@ public class SwingFixtureTest {
     }
 
 
+    @Test
     public void buttonTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
