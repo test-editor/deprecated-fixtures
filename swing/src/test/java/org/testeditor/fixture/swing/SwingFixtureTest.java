@@ -18,7 +18,6 @@ import org.fest.swing.edt.FailOnThreadViolationRepaintManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -59,7 +58,7 @@ public class SwingFixtureTest {
         swingFixture.stopApplication();
     }
 
-    @Test
+
     public void textTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -70,7 +69,7 @@ public class SwingFixtureTest {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
     }
 
-    @Test
+
     public void comboBoxTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -82,7 +81,7 @@ public class SwingFixtureTest {
         assertEquals("1978", swingFixture.getSelectedComboBoxItemText(COMBOBOX_GJ_NAME));
     }
 
-    @Test
+
     public void checkBoxTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -103,7 +102,7 @@ public class SwingFixtureTest {
         swingFixture.uncheckCheckBox(CHECKBOX_HIDEGENDER_NAME);
     }
 
-    @Test
+
     public void radioButtonTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
@@ -116,7 +115,7 @@ public class SwingFixtureTest {
         assertTrue(swingFixture.isCheckedRadioButton(RADIOBUTTON_MALENAME));
     }
 
-    @Test
+
     public void buttonTest() {
         swingFixture.insertIntoTextField(TEXTFIELD_NAME, "Mustermann");
         swingFixture.insertIntoTextField(TEXTFIELD_VORNAME, "Max");
