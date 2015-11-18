@@ -26,19 +26,19 @@ import static org.junit.Assert.*;
 
 public class SwingFixtureTest {
 
-    String TEXTFIELD_NAME = "Name";
-    String TEXTFIELD_VORNAME = "Vorname";
-    String COMBOBOX_GJ_NAME = "GeburtsJahr";
-    String COMBOBOX_GM_NAME = "GeburtsMonat";
-    String COMBOBOX_GT_NAME = "GeburtsTag";
-    String RADIOBUTTON_MALENAME = "GeschlechtMaennlich";
-    String RADIOBUTTON_FEMALENAME = "GeschlechtWeiblich";
-    String CHECKBOX_HIDEGENDER_NAME = "GeschlechtVerbergen";
-    String TABLE_NAME = "AlleAngestellten";
-    String BTN_NEW = "Neu";
-    String BTN_HINZUFUEGEN = "Hinzufuegen";
-    String BTN_LOESCHEN = "Loeschen";
-    String BTN_SPEICHERN = "Speichern";
+    String TEXTFIELD_NAME = "textFieldName";
+    String TEXTFIELD_VORNAME = "textFieldVorname";
+    String COMBOBOX_GJ_NAME = "comboBoxGeburtstagJahr";
+    String COMBOBOX_GM_NAME = "comboBoxGeburtstagMonat";
+    String COMBOBOX_GT_NAME = "comboBoxGeburtstagTag";
+    String RADIOBUTTON_MALENAME = "radioButtonMale";
+    String RADIOBUTTON_FEMALENAME = "radioButtonFemale";
+    String CHECKBOX_HIDEGENDER_NAME = "checkBoxGeschlecht";
+    String TABLE_NAME = "employeeTable";
+    String BTN_NEW = "buttonNew";
+    String BTN_HINZUFUEGEN = "buttonAdd";
+    String BTN_LOESCHEN = "buttonDelete";
+    String BTN_SPEICHERN = "buttonSave";
 
     private static SwingFixture swingFixture;
 
@@ -50,7 +50,6 @@ public class SwingFixtureTest {
     @Before
     public void setUp() throws ClassNotFoundException {
         swingFixture = new SwingFixture();
-        swingFixture.setElementlist("./src/test/resources/elementListContent.txt");
         swingFixture.startApplication("de.akquinet.birthday.controller.EmployeeController");
     }
 

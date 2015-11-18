@@ -24,11 +24,8 @@ import org.fest.swing.exception.ComponentLookupException;
 import org.fest.swing.finder.WindowFinder;
 import org.fest.swing.fixture.*;
 import org.fest.swing.launcher.ApplicationLauncher;
-import org.testeditor.fixture.core.elementlist.ElementListService;
-import org.testeditor.fixture.core.exceptions.ElementKeyNotFoundException;
 import org.testeditor.fixture.core.interaction.Fixture;
 import org.testeditor.fixture.core.interaction.FixtureMethod;
-import org.testeditor.fixture.core.utils.ExceptionUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,42 +40,6 @@ public class SwingFixture implements Fixture {
     private static Thread thread;
     private Robot robot;
     private FrameFixture window;
-
-    private ElementListService elementListService;
-
-    /**
-     * Creates the element list instance representing the GUI-Map for widget
-     * element id's of an application and the user defined names for this
-     * represented GUI element. Often used in a FitNesse ScenarioLibrary for
-     * configuration purpose. <br />
-     * <p/>
-     * Usage for FitNesse: |set elementlist|../ElementList/content.txt|
-     *
-     * @param elementList relative path of the element list content.txt wiki site on a
-     *                    FitNesse Server where WikiPages is the directory where all the
-     *                    Wiki Sites of the recent project are
-     */
-    public void setElementlist(String elementList) {
-        this.elementListService = ElementListService.instanceFor(elementList);
-    }
-
-    /**
-     * Returns the locator for a given key.
-     *
-     * @param elementListKey key in the ElementList
-     * @return locator as String
-     */
-    protected String getLocatorFromElementList(String elementListKey) {
-        String locator = null;
-
-        try {
-            locator = elementListService.getValue(elementListKey);
-        } catch (ElementKeyNotFoundException e) {
-            ExceptionUtils.handleElementKeyNotFoundException(elementListKey, e);
-        }
-
-        return locator;
-    }
 
     /**
      * @param path
@@ -128,11 +89,10 @@ public class SwingFixture implements Fixture {
     /**
      * Search and return the Component with the element list key.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      * @return Found component
      */
-    protected Component findComponent(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    protected Component findComponent(String locator) {
         Component result = null;
         try {
             ComponentFinder finder = window.robot.finder();
@@ -151,12 +111,11 @@ public class SwingFixture implements Fixture {
     /**
      * Insert the Text into a JTextField.
      *
-     * @param text           The Text to fill the TextField
-     * @param elementListKey Key of the Component in element list
+     * @param text    The Text to fill the TextField
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean insertIntoTextField(String elementListKey, String text) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean insertIntoTextField(String locator, String text) {
         try {
             JTextComponentFixture textField = window.textBox(locator);
             textField.enterText(text);
@@ -170,11 +129,10 @@ public class SwingFixture implements Fixture {
     /**
      * delete the text form the textField.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Key of the Component in element list
      */
     @FixtureMethod
-    public boolean deleteTextField(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean deleteTextField(String locator) {
         try {
             JTextComponentFixture textField = window.textBox(locator);
             textField.deleteText();
@@ -188,12 +146,11 @@ public class SwingFixture implements Fixture {
     /**
      * Get the Text from the JTextField.
      *
-     * @param elementListKey
+     * @param locator Identifier of the Component
      * @return
      */
     @FixtureMethod
-    public String getTextFromTextField(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public String getTextFromTextField(String locator) {
         String result = null;
         try {
             JTextComponentFixture textField = window.textBox(locator);
@@ -207,11 +164,10 @@ public class SwingFixture implements Fixture {
     /**
      * Click the button with the name.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean clickButton(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean clickButton(String locator) {
         try {
             JButtonFixture button = window.button(locator);
             button.click();
@@ -225,12 +181,11 @@ public class SwingFixture implements Fixture {
     /**
      * select the item by the text of the comboBox item.
      *
-     * @param elementListKey Key of the Component in element list
-     * @param item           name of the item
+     * @param locator Identifier of the Component
+     * @param item    name of the item
      */
     @FixtureMethod
-    public boolean selectComboBoxItemByName(String elementListKey, String item) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean selectComboBoxItemByName(String locator, String item) {
         try {
             JComboBoxFixture comboBoxFixture = window.comboBox(locator);
             comboBoxFixture.selectItem(item);
@@ -247,12 +202,11 @@ public class SwingFixture implements Fixture {
     /**
      * select the item by the index of the comboBox item.
      *
-     * @param elementListKey Key of the Component in element list
-     * @param index          index of the item
+     * @param locator Identifier of the Component
+     * @param index   index of the item
      */
     @FixtureMethod
-    public boolean selectComboBoxItemById(String elementListKey, int index) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean selectComboBoxItemById(String locator, int index) {
         try {
             JComboBoxFixture comboBoxFixture = window.comboBox(locator);
             comboBoxFixture.selectItem(index);
@@ -269,11 +223,10 @@ public class SwingFixture implements Fixture {
     /**
      * clears the selection from the ComboBox.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean clearSelectionComboBox(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean clearSelectionComboBox(String locator) {
         try {
             JComboBoxFixture comboBox = window.comboBox(locator);
             comboBox.clearSelection();
@@ -290,12 +243,11 @@ public class SwingFixture implements Fixture {
     /**
      * Returns the text of the selected item in the ComboBox.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      * @return text of the selected Item
      */
     @FixtureMethod
-    public String getSelectedComboBoxItemText(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public String getSelectedComboBoxItemText(String locator) {
         String result = null;
         try {
             JComboBoxFixture comboBox = window.comboBox(locator);
@@ -311,12 +263,11 @@ public class SwingFixture implements Fixture {
     /**
      * Returns the id of the selected item in the ComboBox.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      * @return id of the selected Item
      */
     @FixtureMethod
-    public int getSelectedComboBoxItemId(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public int getSelectedComboBoxItemId(String locator) {
         int result = -2;
         try {
             JComboBoxFixture comboBox = window.comboBox(locator);
@@ -332,12 +283,10 @@ public class SwingFixture implements Fixture {
     /**
      * Check the radioButton.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean checkRadioButton(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
-        LOGGER.debug("elementListKey: " + elementListKey);
+    public boolean checkRadioButton(String locator) {
         LOGGER.debug("locator: " + locator);
         try {
             JRadioButtonFixture radioButton = window.radioButton(locator);
@@ -352,12 +301,10 @@ public class SwingFixture implements Fixture {
     /**
      * Uncheck Radiobutton
      *
-     * @param elementListKey
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean uncheckRadioButton(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
-        LOGGER.debug("elementListKey: " + elementListKey);
+    public boolean uncheckRadioButton(String locator) {
         LOGGER.debug("locator: " + locator);
         try {
             JRadioButtonFixture radioButton = window.radioButton(locator);
@@ -372,12 +319,11 @@ public class SwingFixture implements Fixture {
     /**
      * Check the radioButton.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      * @return boolean State of the radioButton
      */
     @FixtureMethod
-    public boolean isCheckedRadioButton(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean isCheckedRadioButton(String locator) {
         boolean result = false;
         try {
             JRadioButtonFixture radioButton = window.radioButton(locator);
@@ -391,11 +337,10 @@ public class SwingFixture implements Fixture {
     /**
      * check the checkBox.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean checkCheckBox(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean checkCheckBox(String locator) {
         try {
             JCheckBoxFixture checkBox = window.checkBox(locator);
             checkBox.check();
@@ -409,11 +354,10 @@ public class SwingFixture implements Fixture {
     /**
      * uncheck the checkBox.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean uncheckCheckBox(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean uncheckCheckBox(String locator) {
         try {
             JCheckBoxFixture checkBox = window.checkBox(locator);
             checkBox.uncheck();
@@ -427,12 +371,11 @@ public class SwingFixture implements Fixture {
     /**
      * returns the state of the checkBox.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      * @return boolean state of the checkBox
      */
     @FixtureMethod
-    public boolean isCheckedCheckBox(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean isCheckedCheckBox(String locator) {
         boolean result = false;
         try {
             JCheckBoxFixture checkBox = window.checkBox(locator);
@@ -446,12 +389,11 @@ public class SwingFixture implements Fixture {
     /**
      * select the Row with the index from the table.
      *
-     * @param elementListKey Key of the Component in element list
-     * @param Id             index from the Row
+     * @param locator Identifier of the Component
+     * @param Id      index from the Row
      */
     @FixtureMethod
-    public boolean selectTableRowById(String elementListKey, int Id) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean selectTableRowById(String locator, int Id) {
         try {
             JTableFixture table = window.table(locator);
             if (Id <= table.rowCount()) {
@@ -471,15 +413,14 @@ public class SwingFixture implements Fixture {
     /**
      * Compares table entry with given value
      *
-     * @param elementListKey
+     * @param locator Identifier of the Component
      * @param value
-     * @param column
+     * @param column  Identifier of the Component
      * @return if true or false
      */
     @FixtureMethod
-    public boolean checkTableCellValue(String elementListKey, String value, String column) {
-        String locator = getLocatorFromElementList(elementListKey);
-        int colLocator = Integer.parseInt(getLocatorFromElementList(column));
+    public boolean checkTableCellValue(String locator, String value, String column) {
+        int colLocator = Integer.parseInt(column);
         String content = null;
         try {
             JTableFixture table = window.table(locator);
@@ -497,12 +438,11 @@ public class SwingFixture implements Fixture {
     /**
      * Double click the row of the table.
      *
-     * @param elementListKey Key of the Component in element list
-     * @param Id             index from the Row
+     * @param locator Identifier of the Component
+     * @param Id      index from the Row
      */
     @FixtureMethod
-    public boolean doubleClickTableRowById(String elementListKey, int Id) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean doubleClickTableRowById(String locator, int Id) {
         try {
             JTableFixture table = window.table(locator);
             selectTableRowById(locator, Id);
@@ -517,12 +457,11 @@ public class SwingFixture implements Fixture {
     /**
      * returns the index from the selected row from the table.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      * @return int Index of the selection
      */
     @FixtureMethod
-    public int getSelectedTableRowIndex(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public int getSelectedTableRowIndex(String locator) {
         int result = -2;
         try {
             JTableFixture table = window.table(locator);
@@ -536,11 +475,10 @@ public class SwingFixture implements Fixture {
     /**
      * double click the component with the name.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      */
     @FixtureMethod
-    public boolean doubleClickComponent(String elementListKey) {
-        String locator = getLocatorFromElementList(elementListKey);
+    public boolean doubleClickComponent(String locator) {
         try {
             JComponent component = (JComponent) findComponent(locator);
             window.robot.doubleClick(component);
@@ -573,14 +511,14 @@ public class SwingFixture implements Fixture {
     /**
      * returns true when element is enabled, false otherwise.
      *
-     * @param elementListKey Key of the Component in element list
+     * @param locator Identifier of the Component
      * @return
      */
     @FixtureMethod
-    public boolean isElementEnabled(String elementListKey) {
+    public boolean isElementEnabled(String locator) {
         boolean result = false;
         try {
-            JComponent component = (JComponent) findComponent(elementListKey);
+            JComponent component = (JComponent) findComponent(locator);
             result = component.isEnabled();
         } catch (Exception e) {
             LOGGER.error("could not find out state, Error: " + e);
@@ -591,51 +529,51 @@ public class SwingFixture implements Fixture {
     /**
      * returns true when the compared texts are identical
      *
-     * @param elementListKey Key of the Component in element list
-     * @param text           text to compare
+     * @param locator Identifier of the Component
+     * @param text    text to compare
      * @return boolean Status of consent
      */
     @FixtureMethod
-    public boolean checkIfTextEquals(String elementListKey, String text) {
-        return (text.equals(getTextFromTextField(elementListKey)));
+    public boolean checkIfTextEquals(String locator, String text) {
+        return (text.equals(getTextFromTextField(locator)));
     }
 
     /**
      * returns true when the compared texts are not identical
      *
-     * @param elementListKey Key of the Component in element list
-     * @param text           text to compare
+     * @param locator Identifier of the Component
+     * @param text    text to compare
      * @return boolean Status of non-compliance
      */
     @FixtureMethod
-    public boolean checkIfTextNotEquals(String elementListKey, String text) {
-        return !(text.equals(getTextFromTextField(elementListKey)));
+    public boolean checkIfTextNotEquals(String locator, String text) {
+        return !(text.equals(getTextFromTextField(locator)));
     }
 
     /**
      * returns true when the compared texts are identical
      *
-     * @param elementListKey Key of the Component in element list
-     * @param text           text to compare
+     * @param locator Identifier of the Component
+     * @param text    text to compare
      * @return boolean Status of consent
      */
     @FixtureMethod
-    public boolean checkIfSelectedItemIs(String elementListKey, String text) {
-        LOGGER.debug("ComboBox: " + getSelectedComboBoxItemText(elementListKey));
+    public boolean checkIfSelectedItemIs(String locator, String text) {
+        LOGGER.debug("ComboBox: " + getSelectedComboBoxItemText(locator));
         LOGGER.debug("Vorgegebener Text: " + text);
-        return (text.equals(getSelectedComboBoxItemText(elementListKey)));
+        return (text.equals(getSelectedComboBoxItemText(locator)));
     }
 
     /**
      * returns true when the compared texts are not identical
      *
-     * @param elementListKey Key of the Component in element list
-     * @param text           text to compare
+     * @param locator Identifier of the Component
+     * @param text    text to compare
      * @return boolean Status of non-compliance
      */
     @FixtureMethod
-    public boolean checkIfSelectedItemIsNot(String elementListKey, String text) {
-        return !(text.equals(getSelectedComboBoxItemText(elementListKey)));
+    public boolean checkIfSelectedItemIsNot(String locator, String text) {
+        return !(text.equals(getSelectedComboBoxItemText(locator)));
     }
 
     @Override
