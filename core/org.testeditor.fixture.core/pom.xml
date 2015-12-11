@@ -19,6 +19,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <checkstyle-config>${basedir}/../org.testeditor.fixture.parent/checkstyle.xml</checkstyle-config>
+        <bintray.package>core-fixture</bintray.package>
 	</properties>
 
     <build>
