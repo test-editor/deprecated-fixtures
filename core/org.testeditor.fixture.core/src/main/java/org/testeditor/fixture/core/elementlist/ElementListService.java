@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -24,7 +25,8 @@ import org.apache.log4j.Logger;
 import org.testeditor.fixture.core.exceptions.ElementKeyNotFoundException;
 
 /**
- * This service provides access to the key-value pairs of an element list. <br />
+ * This service provides access to the key-value pairs of an element list.
+ * <br />
  * 
  * Each FitNesse project which uses any Test-Editor fixtures should have an
  * element list stored inside the FitNesse project (see for example
@@ -36,7 +38,7 @@ import org.testeditor.fixture.core.exceptions.ElementKeyNotFoundException;
  * service. Values are the technical addresses of any items (e.g. the x-path to
  * a HTML object).
  */
-public final class ElementListService {
+public class ElementListService {
 	private static final Logger LOGGER = Logger.getLogger(ElementListService.class);
 
 	/**
@@ -118,6 +120,10 @@ public final class ElementListService {
 		}
 
 		return property;
+	}
+
+	public Collection<Object> getAllKeys() {
+		return properties.keySet();
 	}
 
 }

@@ -18,6 +18,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.testeditor.fixture.core.exceptions.ContinueTestException;
@@ -37,7 +39,11 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 
 	public static final String WAIT_PROPERTY = "waits.after.teststep";
 
-	static private List<StoppableFixture> stoppableFixtures = new ArrayList<StoppableFixture>();
+	static private Map<String, List<StoppableFixture>> stoppableFixtures = new TreeMap<String, List<StoppableFixture>>();
+
+	public TestEditorLoggingInteraction() {
+		super();
+	}
 
 	@Override
 	public Object newInstance(Constructor<?> constructor, Object... initargs)
@@ -48,8 +54,11 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 		logger.debug("call to newInstance for " + constructor.getName());
 
 		if (object instanceof StoppableFixture) {
-			logger.debug("adding object of type " + object.getClass().getName() + " to stoppableFixtures ");
-			stoppableFixtures.add((StoppableFixture) object);
+			String name = object.getClass().getName();
+			if (!stoppableFixtures.containsKey(name)) {
+				stoppableFixtures.put(name, new ArrayList<StoppableFixture>());
+			}
+			stoppableFixtures.get(name).add((StoppableFixture) object);
 		}
 
 		return object;
@@ -213,15 +222,17 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 
 	public static void tearDownAllFixtures(boolean fail) {
 
-		for (StoppableFixture object : stoppableFixtures) {
+		for (List<StoppableFixture> list : stoppableFixtures.values()) {
+			for (StoppableFixture object : list) {
 
-			try {
-				logger.debug(
-						"calling tearDwon on object of type " + object.getClass().getName() + " stoppableFixtures ");
-				object.tearDown(fail);
-			} catch (Throwable e) {
-				String logMessage = "Method : StoppableFixture.tearDown()";
-				logger.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);
+				try {
+					logger.debug("calling tearDwon on object of type " + object.getClass().getName()
+							+ " stoppableFixtures ");
+					object.tearDown(fail);
+				} catch (Throwable e) {
+					String logMessage = "Method : StoppableFixture.tearDown()";
+					logger.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);
+				}
 			}
 		}
 		stoppableFixtures.clear();
@@ -287,6 +298,13 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 			logger.error("Unable to parse: " + waitsAfterTeststep.trim());
 		}
 		return result;
+	}
+
+	public static List<StoppableFixture> getBeans(String name) {
+		if (stoppableFixtures.containsKey(name)) {
+			return stoppableFixtures.get(name);
+		}
+		return null;
 	}
 
 }
