@@ -80,14 +80,14 @@
                 <version>${log4j.version}</version>
             </dependency>
             <dependency>
-        			<groupId>org.testeditor.fitnesse</groupId>
+<!--        			<groupId>org.testeditor.fitnesse</groupId>
         			<artifactId>fitnesse</artifactId>
         			<scope>compile</scope>
-        			<version>1.9.0</version>
-<!--                <groupId>org.fitnesse</groupId>
+        			<version>1.9.0</version>-->
+                <groupId>org.fitnesse</groupId>
                 <artifactId>fitnesse</artifactId>
                 <scope>compile</scope>
-                <version>${fitnesse.version}</version>-->
+                <version>${fitnesse.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -102,10 +102,10 @@
 			<artifactId>log4j</artifactId>
 		</dependency>
 		<dependency>
-        			<groupId>org.testeditor.fitnesse</groupId>
-        			<artifactId>fitnesse</artifactId>
-<!--			<groupId>org.fitnesse</groupId>
-			<artifactId>fitnesse</artifactId>-->
+<!--        			<groupId>org.testeditor.fitnesse</groupId>
+        			<artifactId>fitnesse</artifactId>-->
+			<groupId>org.fitnesse</groupId>
+		<artifactId>fitnesse</artifactId>
 		</dependency>
 	</dependencies>
 
