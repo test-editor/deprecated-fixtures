@@ -23,6 +23,7 @@ import java.net.URI;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -502,6 +503,7 @@ public class WebFixtureTest {
 	 * Test for readValueOfElement.
 	 */
 	@Test
+	@Ignore
 	public void readValueOfElementWorksCorrect() {
 		startWebApplication(WEB_ELEMENTS_PAGE);
 		// Value of input

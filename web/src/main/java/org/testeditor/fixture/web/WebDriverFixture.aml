@@ -1,0 +1,68 @@
+package org.testeditor.fixture.web
+
+interaction type wait {
+	label = "Wait seconds"
+	template = "Wait" ${seconds} "seconds"
+	method = WebDriverFixture.waitSeconds(seconds)
+}
+
+interaction type startBrowser {
+	label = "Start browser"
+	template = "start browser" ${element} 
+	method = WebDriverFixture.startBrowser(element)
+}
+
+interaction type goToUrl {
+	label = "Browse to url"
+	template = "Browse to" ${url}
+	method = WebDriverFixture.gotToUrl(url)
+}
+
+interaction type closeBrowser {
+	label = "Close browser"
+	template = "Close browser"
+	method = WebDriverFixture.closeBrowser
+}
+
+interaction type typeIn {
+	label = "Type in"
+	template = "Type in" ${element} "value" ${value}
+	method = WebDriverFixture.typeInto(element, value)
+}
+
+interaction type sendEnter {
+	label = "press enter in"
+	template = "press enter in" ${element}
+	method = WebDriverFixture.pressEnterOn(element)
+}
+
+element type BrowserApplication {
+	interactions = startBrowser
+}
+
+element type field {
+	interactions = typeIn, sendEnter
+}
+
+component type GeneralBrowser {
+	interactions = wait, goToUrl, closeBrowser
+}
+
+component type Page {
+	
+}
+
+component WebBrowser is GeneralBrowser {
+	element Firefox is BrowserApplication {
+		label = "Firefox"
+		locator ="firefox"
+	}
+	element IE is BrowserApplication {
+		label = "Internet Explorer"
+		locator ="ie"
+	}
+	element Chrome is BrowserApplication {
+		label = "Chrome"
+		locator ="chrome"
+	}
+}
