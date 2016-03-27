@@ -36,6 +36,12 @@ interaction type sendEnter {
 	method = WebDriverFixture.pressEnterOn(element)
 }
 
+interaction type clear {
+	label = "Clear field"
+	template = "Clear value in" ${element}
+	method = WebDriverFixture.clear(element)
+}
+
 element type BrowserApplication {
 	interactions = startBrowser
 }

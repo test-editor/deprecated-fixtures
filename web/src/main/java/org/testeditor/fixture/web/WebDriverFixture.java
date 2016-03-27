@@ -64,4 +64,10 @@ public class WebDriverFixture {
 		element.sendKeys(value);
 	}
 
+	@FixtureMethod
+	public void clear(String elementLocator) {
+		WebElement element = driver.findElement(By.name(elementLocator));
+		element.clear();
+	}
+
 }
