@@ -42,12 +42,42 @@ interaction type clear {
 	method = WebDriverFixture.clear(element)
 }
 
+interaction type click {
+	label = "Click"
+	template = "click on" ${element}
+	method = WebDriverFixture.clickOn(element)	
+}
+
+interaction type selectInSlection {
+	label = "Select in selection"
+	template = "select " ${value} "in" ${element}
+	method = WebDriverFixture.selectElementInSlection(element,value)	
+}
+
+interaction type readValue {
+	label = "Read value"
+	template = "read value from" ${element}
+	method = WebDriverFixture.readValue(element)	
+}
+
 element type BrowserApplication {
 	interactions = startBrowser
 }
 
 element type field {
 	interactions = typeIn, sendEnter
+}
+
+element type button {
+	interactions = click, sendEnter
+}
+
+element type selection {
+	interactions = click, sendEnter, selectInSlection
+}
+
+element type labelElement {
+	interactions = readValue
 }
 
 component type GeneralBrowser {
