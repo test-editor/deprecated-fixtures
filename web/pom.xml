@@ -127,6 +127,11 @@
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
 		</dependency>
+		<dependency>
+		  <groupId>com.paulhammant</groupId>
+		  <artifactId>ngwebdriver</artifactId>
+		  <version>0.9.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -154,6 +159,20 @@
 				<directory>src/main/java/org/testeditor/fixture/web</directory>
 				<includes>
 					<include>WebDriverFixture.aml</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>org/testeditor/fixture/web/angularjs</targetPath>
+				<directory>src/main/java/org/testeditor/fixture/web/angularjs</directory>
+				<includes>
+					<include>NgOneWebDriverFixture.aml</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>org/testeditor/fixture/web/angularjs/materialdesign</targetPath>
+				<directory>src/main/java/org/testeditor/fixture/web/angularjs/materialdesign</directory>
+				<includes>
+					<include>NgMdWebDriverFixture.aml</include>
 				</includes>
 			</resource>
 		</resources>

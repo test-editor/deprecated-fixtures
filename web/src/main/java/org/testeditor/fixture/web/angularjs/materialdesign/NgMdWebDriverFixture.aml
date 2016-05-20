@@ -1,57 +1,63 @@
-package org.testeditor.fixture.web
+package org.testeditor.fixture.web.angularjs.materialdesign
 
 interaction type wait {
 	label = "Wait seconds"
 	template = "Wait" ${seconds} "seconds"
-	method = WebDriverFixture.waitSeconds(seconds)
+	method = NgMdWebDriverFixture.waitSeconds(seconds)
 }
 
 interaction type startBrowser {
 	label = "Start browser"
 	template = "start browser" ${element} 
-	method = WebDriverFixture.startBrowser(element)
+	method = NgMdWebDriverFixture.startBrowser(element)
 }
 
 interaction type goToUrl {
 	label = "Browse to url"
 	template = "Browse to" ${url}
-	method = WebDriverFixture.gotToUrl(url)
+	method = NgMdWebDriverFixture.gotToUrl(url)
 }
 
 interaction type closeBrowser {
 	label = "Close browser"
 	template = "Close browser"
-	method = WebDriverFixture.closeBrowser
+	method = NgMdWebDriverFixture.closeBrowser
 }
 
 interaction type typeIn {
 	label = "Type in"
 	template = "Type in" ${element} "value" ${value}
-	method = WebDriverFixture.typeInto(element, value)
+	method = NgMdWebDriverFixture.typeInto(element, value)
 }
 
 interaction type sendEnter {
 	label = "press enter in"
 	template = "press enter in" ${element}
-	method = WebDriverFixture.pressEnterOn(element)
+	method = NgMdWebDriverFixture.pressEnterOn(element)
 }
 
 interaction type clear {
 	label = "Clear field"
 	template = "Clear value in" ${element}
-	method = WebDriverFixture.clear(element)
+	method = NgMdWebDriverFixture.clear(element)
 }
 
 interaction type click {
 	label = "Click"
 	template = "click on" ${element}
-	method = WebDriverFixture.clickOn(element)	
+	method = NgMdWebDriverFixture.clickOn(element)	
+}
+
+interaction type selectInSlection {
+	label = "Select in selection"
+	template = "select " ${value} "in" ${element}
+	method = NgMdWebDriverFixture.selectElementInSelection(element,value)	
 }
 
 interaction type readValue {
 	label = "Read value"
 	template = "read value from" ${element}
-	method = WebDriverFixture.readValue(element)	
+	method = NgMdWebDriverFixture.readValue(element)	
 }
 
 element type BrowserApplication {
@@ -67,7 +73,7 @@ element type button {
 }
 
 element type selection {
-	interactions = click, sendEnter
+	interactions = click, sendEnter, selectInSlection
 }
 
 element type labelElement {

@@ -24,7 +24,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.support.ui.Select;
 import org.testeditor.fixture.core.interaction.FixtureMethod;
 
 public class WebDriverFixture {
@@ -37,28 +36,45 @@ public class WebDriverFixture {
 		Thread.sleep(timeToWait * 1000);
 	}
 
+	public WebDriver getDriver() {
+		return driver;
+	}
+
 	@FixtureMethod
 	public void startBrowser(String browser) {
+		logger.info("Starting brwoser: {}", browser);
 		switch (browser) {
+		case "default":
+			if (System.getProperty("os.name").startsWith("Windows")) {
+				System.setProperty("webdriver.ie.driver", "c:/vagrant_bin/IEDriverServer.exe");
+				driver = new InternetExplorerDriver();
+			} else {
+				launchFirefox();
+			}
+			break;
 		case "firefox":
-			// if (System.getProperty("os.name").startsWith("Windows")) {
-			// System.setProperty("webdriver.ie.driver",
-			// "c:/vagrant_bin/IEDriverServer.exe");
-			// driver = new InternetExplorerDriver();
-			// } else {
-			File profFile = new File(System.getenv("java.io.tmpdir"), "selenium");
-			profFile.mkdir();
-			logger.debug("Creating firefox profile in: {}", profFile);
-			driver = new FirefoxDriver(new FirefoxProfile(profFile));
-			// }
+			launchFirefox();
 			break;
 		case "ie":
 			driver = new InternetExplorerDriver();
 			break;
 		case "chrome":
 			driver = new ChromeDriver();
+			break;
 		}
+		configureDriver();
+	}
+
+	protected void configureDriver() {
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+	}
+
+	private void launchFirefox() {
+		File profFile = new File(System.getenv("java.io.tmpdir"), "selenium");
+		profFile.mkdir();
+		logger.debug("Creating firefox profile in: {}", profFile);
+		FirefoxProfile profile = new FirefoxProfile(profFile);
+		driver = new FirefoxDriver(profile);
 	}
 
 	@FixtureMethod
@@ -99,12 +115,6 @@ public class WebDriverFixture {
 	public String readValue(String elementLocator) {
 		WebElement element = getWebElement(elementLocator);
 		return element.getText();
-	}
-
-	@FixtureMethod
-	public void selectElementInSlection(String elementLocator, String value) {
-		Select select = new Select(getWebElement(elementLocator));
-		select.selectByValue(value);
 	}
 
 	protected WebElement getWebElement(String elementLocator) {
