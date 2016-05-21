@@ -20,6 +20,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testeditor.fixture.web.WebDriverFixture;
 
+import com.paulhammant.ngwebdriver.ByAngular;
 import com.paulhammant.ngwebdriver.NgWebDriver;
 
 public class NgOneWebDriverFixture extends WebDriverFixture {
@@ -30,6 +31,18 @@ public class NgOneWebDriverFixture extends WebDriverFixture {
 	@Override
 	protected WebElement getWebElement(String elementLocator) {
 		waitForAngularCompleteOperations();
+		if (elementLocator.startsWith("[model")) {
+			if (elementLocator.startsWith("[model(")) {
+				String substring = elementLocator.substring(elementLocator.indexOf("(") + 1);
+				String indexString = substring.substring(0, substring.indexOf(")"));
+				Integer index = Integer.valueOf(indexString);
+				return getDriver().findElements(ByAngular.model(extractLocatorStringFrom(elementLocator))).get(index);
+			}
+			WebElement result = getDriver().findElement(ByAngular.model(extractLocatorStringFrom(elementLocator)));
+			if (result != null) {
+				return result;
+			}
+		}
 		return super.getWebElement(elementLocator);
 	}
 

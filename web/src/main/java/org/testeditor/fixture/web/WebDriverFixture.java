@@ -121,16 +121,16 @@ public class WebDriverFixture {
 		logger.info("Lookup element {}", elementLocator);
 		WebElement result = null;
 		if (elementLocator.startsWith("[xpath]")) {
-			result = driver.findElement(By.xpath(elementLocator.substring(elementLocator.indexOf(']') + 1)));
+			result = driver.findElement(By.xpath(extractLocatorStringFrom(elementLocator)));
 		}
 		if (elementLocator.startsWith("[name]")) {
-			result = driver.findElement(By.name(elementLocator.substring(elementLocator.indexOf(']') + 1)));
+			result = driver.findElement(By.name(extractLocatorStringFrom(elementLocator)));
 		}
 		if (elementLocator.startsWith("[link]")) {
-			result = driver.findElement(By.linkText(elementLocator.substring(elementLocator.indexOf(']') + 1)));
+			result = driver.findElement(By.linkText(extractLocatorStringFrom(elementLocator)));
 		}
 		if (elementLocator.startsWith("[id]")) {
-			result = driver.findElement(By.id(elementLocator.substring(elementLocator.indexOf(']') + 1)));
+			result = driver.findElement(By.id(extractLocatorStringFrom(elementLocator)));
 		}
 		if (result == null) {
 			result = driver.findElement(By.name(elementLocator));
@@ -138,4 +138,7 @@ public class WebDriverFixture {
 		return result;
 	}
 
+	protected String extractLocatorStringFrom(String elementLocator) {
+		return elementLocator.substring(elementLocator.indexOf(']') + 1);
+	}
 }
