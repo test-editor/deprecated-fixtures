@@ -75,6 +75,7 @@ public class WebDriverFixture {
 		logger.debug("Creating firefox profile in: {}", profFile);
 		FirefoxProfile profile = new FirefoxProfile(profFile);
 		if (System.getProperty("http.proxyHost") != null) {
+			logger.info("Setting up proxy: {}", System.getProperty("http.proxyHost"));
 			profile.setPreference("network.proxy.type", 1);
 			profile.setPreference("network.proxy.http", System.getProperty("http.proxyHost"));
 			profile.setPreference("network.proxy.http_port", System.getProperty("http.proxyPort"));
