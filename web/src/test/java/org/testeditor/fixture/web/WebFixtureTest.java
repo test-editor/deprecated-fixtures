@@ -810,19 +810,6 @@ public class WebFixtureTest {
 		 * 
 		 * @return always TRUE
 		 */
-		@Override
-		public boolean openBrowser(String browserName) {
-			webDriver = new HtmlUnitDriver(true);
-			return true;
-		}
-	}
-
-	/**
-	 * Test for openBrowser to get maximum code coverage.
-	 */
-	@Test
-	public void testJUnitWebFixture() {
-		assertTrue(fixture.webDriver instanceof HtmlUnitDriver);
 	}
 
 	/**
