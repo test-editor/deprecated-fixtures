@@ -28,6 +28,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.testeditor.fixture.core.exceptions.ElementKeyNotFoundException;
 import org.testeditor.fixture.core.exceptions.StopTestException;
 
@@ -810,6 +811,19 @@ public class WebFixtureTest {
 		 * 
 		 * @return always TRUE
 		 */
+		@Override
+		public boolean openBrowser(String browserName) {
+			webDriver = new HtmlUnitDriver(true);
+			return true;
+		}
+	}
+
+	/**
+	 * Test for openBrowser to get maximum code coverage.
+	 */
+	@Test
+	public void testJUnitWebFixture() {
+		assertTrue(fixture.webDriver instanceof HtmlUnitDriver);
 	}
 
 	/**
