@@ -15,6 +15,7 @@ package org.testeditor.fixture.core.interaction;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,9 +50,27 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	public Object newInstance(Constructor<?> constructor, Object... initargs)
 			throws InvocationTargetException, InstantiationException, IllegalAccessException {
 		// TODO Auto-generated method stub
-		Object object = super.newInstance(constructor, initargs);
-
-		logger.debug("call to newInstance for " + constructor.getName());
+		Object object = null;
+		if (Modifier.isAbstract(constructor.getDeclaringClass().getModifiers())) {
+			Class<?> clazz;
+			Constructor<?> newConstructor;
+			String className = "de.signaliduna.testautomation.nlv.fixture.NlvFixtureElanImpl";
+			try {
+				clazz = Class.forName(className);
+			} catch (ClassNotFoundException e) {
+				throw new StopTestException(
+						"Die Klasse '" + className + "' kann nicht geladen werden. Nachricht" + e.getMessage(), e);
+			}
+			try {
+				newConstructor = clazz.getConstructor();
+			} catch (NoSuchMethodException | SecurityException e) {
+				throw new StopTestException("Der Standardconstructor für die Klasse '" + className
+						+ "' kann nicht erzeugt werden. Nachricht" + e.getMessage(), e);
+			}
+			object = super.newInstance(newConstructor, initargs);
+		} else {
+			object = super.newInstance(constructor, initargs);
+		}
 
 		if (object instanceof StoppableFixture) {
 			String name = object.getClass().getName();
@@ -120,7 +139,11 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 				throw (ContinueTestException) e.getCause();
 			} else {
 				logger.error(logMessage + e.getTargetException().getMessage());
-				StackTraceElement[] stackTrace = e.getTargetException().getStackTrace();
+				Throwable targetExcpetion = e.getTargetException();
+				if (e.getTargetException().getCause() != null) {
+					targetExcpetion = e.getTargetException().getCause();
+				}
+				StackTraceElement[] stackTrace = targetExcpetion.getStackTrace();
 				for (StackTraceElement stackTraceElement : stackTrace) {
 					logger.error(stackTraceElement);
 				}

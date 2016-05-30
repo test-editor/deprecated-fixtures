@@ -52,10 +52,11 @@ public class WebFixture implements StoppableFixture, Fixture {
 	private static final Logger LOGGER = Logger.getLogger(WebFixture.class);
 
 	private Integer waitInMillis = 250;
-	private Integer waitCounter = 100;
+	private Integer waitCounter = 3;
 
 	private ElementListService elementListService;
 	protected WebDriver webDriver;
+	private boolean webDriverOpen = false;
 	private int timeout;
 
 	/**
@@ -156,11 +157,14 @@ public class WebFixture implements StoppableFixture, Fixture {
 			} else if ("ie".equalsIgnoreCase(browserName)) {
 				DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
 				cap.setCapability(CapabilityType.TAKES_SCREENSHOT, false);
-				cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, "true");
+				cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+				LOGGER.info("INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS set to true");
 				webDriver = new InternetExplorerDriver(cap);
+				setWebDriverOpen(true);
 			} else if ("chrome".equalsIgnoreCase(browserName)) {
 				System.setProperty("webdriver.chrome.driver", browserPath);
 				webDriver = new ChromeDriver();
+				setWebDriverOpen(true);
 			} else {
 				String logMessage = "browser '" + browserName + " not available";
 				LOGGER.error(logMessage);
@@ -212,6 +216,8 @@ public class WebFixture implements StoppableFixture, Fixture {
 			}
 
 			webDriver = new FirefoxDriver();
+			webDriverOpen = true;
+
 		} catch (WebDriverException e) {
 			// here will be thrown an exception if installed browser was not
 			// found
@@ -956,25 +962,26 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * 
 	 * @return always true to show inside FitNesse a positive result
 	 */
-	public boolean closeBrowser() {
+	public void closeBrowser() {
 		// checks if Browser is Chrome because Chromedriver does not function
 		// with Close-Method of WebDriver
-		if (webDriver instanceof ChromeDriver) {
-			webDriver.quit();
-		} else {
-			webDriver.close();
-			// necessary wait, at least for FF portable
-			waitTime(500);
-			// best effort
-			try {
+		if (webDriverOpen) {
+			if (webDriver instanceof ChromeDriver) {
 				webDriver.quit();
-				// CHECKSTYLE:OFF
-			} catch (Throwable t) { // disable checkstyle for empty block
-				// CHECKSTYLE:ON
-				// NFA - at least Firefox portable is down after close()
+			} else {
+				LOGGER.debug("call to close driver");
+				webDriver.close();
+				// necessary wait, at least for FF portable
+				waitTime(500);
+				try {
+					LOGGER.debug("call to quit driver");
+					webDriver.quit();
+				} catch (Throwable t) { // disable checkstyle for empty block
+					LOGGER.debug("exception during quit", t);
+				}
+				webDriverOpen = false;
 			}
 		}
-		return true;
 	}
 
 	/**
@@ -1399,5 +1406,13 @@ public class WebFixture implements StoppableFixture, Fixture {
 	}
 
 	public void setTestName(String arg0) {
+	}
+
+	public boolean isWebDriverOpen() {
+		return webDriverOpen;
+	}
+
+	public void setWebDriverOpen(boolean webDriverOpen) {
+		this.webDriverOpen = webDriverOpen;
 	}
 }

@@ -33,7 +33,7 @@ public final class ExceptionMessageHelper {
 	 */
 	public static String cleanMessage(String message) {
 		String result = message;
-		if (message.contains("\n")) {
+		if (message != null && message.contains("\n")) {
 			int indexOfNewLine = message.indexOf("\n");
 			result = result.substring(0, indexOfNewLine);
 		}
