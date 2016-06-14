@@ -10,6 +10,12 @@ interaction type startBrowser {
 	method = NgMdWebDriverFixture.startBrowser(element)
 }
 
+interaction type startFireForxPortable {
+	label = "Start browser firefox protable"
+	template = "start firefox protable " ${path} 
+	method = NgMdWebDriverFixture.startFireFoxPortable(path)
+}
+
 interaction type goToUrl {
 	template = "Browse to" ${url}
 	method = NgMdWebDriverFixture.gotToUrl(url)
@@ -18,6 +24,11 @@ interaction type goToUrl {
 interaction type closeBrowser {
 	template = "Close browser"
 	method = NgMdWebDriverFixture.closeBrowser
+}
+
+interaction type setActiveBrwoser {
+	template = "Set active browser" ${browser}
+	method = NgMdWebDriverFixture.setDriver(browser)
 }
 
 interaction type typeIn {
@@ -60,8 +71,14 @@ interaction type selectCurrentDate {
 	method = NgMdWebDriverFixture.selectCurrentDate
 }
 
+interaction type executeScript {
+	label = "Execute Script"
+	template = "Execute script" ${value}
+	method = NgMdWebDriverFixture.setExecuteScript(value)	
+}
+
 element type BrowserApplication {
-	interactions = startBrowser
+	interactions = startBrowser, startFireForxPortable
 }
 
 element type field {
@@ -85,7 +102,7 @@ element type labelElement {
 }
 
 component type GeneralBrowser {
-	interactions = wait, goToUrl, closeBrowser
+	interactions = wait, goToUrl, closeBrowser, setActiveBrwoser
 }
 
 component type Page {
@@ -97,9 +114,13 @@ component WebBrowser is GeneralBrowser {
 		label = "default"
 		locator ="default"
 	}
-	element Firefox is BrowserApplication {
-		label = "Firefox"
+	element OlderFirefox is BrowserApplication {
+		label = "Firefox(older)"
 		locator ="firefox"
+	}
+	element Firefox is BrowserApplication {
+		label = "Firefox(47 and above)"
+		locator ="modernfirefox"
 	}
 	element IE is BrowserApplication {
 		label = "Internet Explorer"

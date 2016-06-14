@@ -12,6 +12,12 @@ interaction type startBrowser {
 	method = WebDriverFixture.startBrowser(element)
 }
 
+interaction type startFireForxPortable {
+	label = "Start browser firefox protable"
+	template = "start firefox protable" ${path} 
+	method = WebDriverFixture.startFireFoxPortable(path)
+}
+
 interaction type goToUrl {
 	label = "Browse to url"
 	template = "Browse to" ${url}
@@ -22,6 +28,11 @@ interaction type closeBrowser {
 	label = "Close browser"
 	template = "Close browser"
 	method = WebDriverFixture.closeBrowser
+}
+
+interaction type setActiveBrwoser {
+	template = "Set active browser" ${browser}
+	method = WebDriverFixture.setDriver(browser)
 }
 
 interaction type typeIn {
@@ -54,8 +65,14 @@ interaction type readValue {
 	method = WebDriverFixture.readValue(element)	
 }
 
+interaction type executeScript {
+	label = "Execute Script"
+	template = "Execute script" ${value}
+	method = WebDriverFixture.setExecuteScript(value)	
+}
+
 element type BrowserApplication {
-	interactions = startBrowser
+	interactions = startBrowser, startFireForxPortable, executeScript
 }
 
 element type field {
@@ -75,7 +92,7 @@ element type labelElement {
 }
 
 component type GeneralBrowser {
-	interactions = wait, goToUrl, closeBrowser
+	interactions = wait, goToUrl, closeBrowser, setActiveBrwoser
 }
 
 component type Page {
@@ -87,9 +104,13 @@ component WebBrowser is GeneralBrowser {
 		label = "default"
 		locator ="default"
 	}
-	element Firefox is BrowserApplication {
-		label = "Firefox"
+	element OlderFirefox is BrowserApplication {
+		label = "Firefox(older)"
 		locator ="firefox"
+	}
+	element Firefox is BrowserApplication {
+		label = "Firefox(47 and above)"
+		locator ="modernfirefox"
 	}
 	element IE is BrowserApplication {
 		label = "Internet Explorer"
