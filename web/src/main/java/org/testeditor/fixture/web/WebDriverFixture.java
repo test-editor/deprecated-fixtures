@@ -16,6 +16,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +33,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testeditor.fixture.core.interaction.FixtureMethod;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
@@ -41,6 +46,7 @@ public class WebDriverFixture {
 	private WebDriver driver;
 	private Logger logger = LogManager.getLogger(WebDriverFixture.class);
 	private String exeuteScript = null;
+	private List<WebElement> allSelectedOptions;
 
 	@FixtureMethod
 	public void waitSeconds(long timeToWait) throws InterruptedException {
@@ -194,6 +200,45 @@ public class WebDriverFixture {
 		WebElement element = getWebElement(elementLocator);
 		return element.getText();
 	}
+	
+	@FixtureMethod
+	public void selectElementInSelection(String elementLocator, String value) throws InterruptedException{
+		clickOn(elementLocator);
+		Thread.sleep(300);
+		WebElement element = getWebElement(elementLocator);
+	    new Select(element).selectByVisibleText(value);
+		//logger.trace("Selected value {} in selection {}", value, elementLocator);
+	}
+	
+	@FixtureMethod
+	public Map<String, String>  getOptionsInSelection(String elementLocator) throws InterruptedException {
+		clickOn(elementLocator);
+		Thread.sleep(300);
+		Map<String, String> namesOfAllSelectedOptions = new HashMap<String, String>();
+		Select selection = new Select(getWebElement(elementLocator));
+		allSelectedOptions = selection.getAllSelectedOptions();
+		for (WebElement webElement : allSelectedOptions) {
+			namesOfAllSelectedOptions.put(webElement.getText(), webElement.getText());
+		}
+		return namesOfAllSelectedOptions;
+	}
+	
+	@FixtureMethod
+	public void moveToElementAndClick(String elementLoacator) {
+		WebElement element = getWebElement(elementLoacator);
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element).click().perform();
+	}
+	
+	@FixtureMethod
+	public Boolean checkEnabled(String elementLoacator) {
+		WebElement element = getWebElement(elementLoacator);
+		boolean enabled = element.isEnabled();
+		if (!enabled) {
+			return null; 
+		}
+		return enabled;
+	}
 
 	protected WebElement getWebElement(String elementLocator) {
 		if (exeuteScript != null) {
@@ -212,6 +257,9 @@ public class WebDriverFixture {
 		}
 		if (elementLocator.startsWith("[id]")) {
 			result = driver.findElement(By.id(extractLocatorStringFrom(elementLocator)));
+		}
+		if (elementLocator.startsWith("[css]")) {
+			result = driver.findElement(By.cssSelector(extractLocatorStringFrom(elementLocator)));
 		}
 		if (result == null) {
 			result = driver.findElement(By.name(elementLocator));
@@ -239,4 +287,5 @@ public class WebDriverFixture {
 	protected String extractLocatorStringFrom(String elementLocator) {
 		return elementLocator.substring(elementLocator.indexOf(']') + 1);
 	}
+	
 }

@@ -58,6 +58,23 @@ interaction type click {
 	template = "click on" ${element}
 	method = WebDriverFixture.clickOn(element)	
 }
+interaction type moveToElementAndClick {
+	label = "moveToElementAndClick"
+	template = "move to" ${element} "and click"
+	method = WebDriverFixture.moveToElementAndClick(element)	
+}
+
+
+
+interaction type selectInSelection {
+	template = "select " ${value} "in" ${element}
+	method = WebDriverFixture.selectElementInSelection(element,value)	
+}
+
+interaction type getAvailableOptions {
+	template = "available Options in" ${element}
+	method = WebDriverFixture.getOptionsInSelection(element)	
+}
 
 interaction type readValue {
 	label = "Read value"
@@ -71,6 +88,14 @@ interaction type executeScript {
 	method = WebDriverFixture.setExecuteScript(value)	
 }
 
+
+interaction type checkEnabled {
+	label = "check enabled"
+	template = "check if element " ${element} " is enabled"
+	method = WebDriverFixture.checkEnabled(element)	
+}
+
+
 element type BrowserApplication {
 	interactions = startBrowser, startFireForxPortable, executeScript
 }
@@ -80,11 +105,11 @@ element type field {
 }
 
 element type button {
-	interactions = click, sendEnter
+	interactions = click, sendEnter, moveToElementAndClick, checkEnabled
 }
 
 element type selection {
-	interactions = click, sendEnter
+	interactions = click, sendEnter, selectInSelection, getAvailableOptions
 }
 
 element type labelElement {
