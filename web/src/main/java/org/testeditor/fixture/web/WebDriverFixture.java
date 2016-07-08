@@ -93,10 +93,11 @@ public class WebDriverFixture {
 		}
 		configureDriver();
 		return driver;
-	}
+    }
 
 	@FixtureMethod
 	public WebDriver startFireFoxPortable(String browserPath) {
+		logger.info("Starting firefox portable: {}", browserPath);
 		FirefoxBinary binary = new FirefoxBinary(new File(browserPath));
 		FirefoxProfile profile = getFireFoxProfile();
 		driver = new FirefoxDriver(binary, profile);
@@ -116,6 +117,14 @@ public class WebDriverFixture {
 	}
 
 	private void launchFirefoxMarionetteDriver() {
+//		Authenticator.setDefault(new Authenticator() {
+//	          @Override
+//	         public PasswordAuthentication getPasswordAuthentication() {
+//	               if(getRequestorType() == Authenticator.RequestorType.PROXY) 
+//	                   return new PasswordAuthentication("your_proxy_username", "your_proxy_password".toCharArray());
+//	               else
+//	                  return super.getPasswordAuthentication();
+//	         }});
 		MarionetteDriverManager.getInstance().setup("v0.7.1");
 		driver = new MarionetteDriver();
 		registerShutdownHook(driver);
@@ -136,7 +145,7 @@ public class WebDriverFixture {
 
 	private void launchFirefox() {
 		FirefoxProfile profile = getFireFoxProfile();
-		driver = new FirefoxDriver();// profile);
+		driver = new FirefoxDriver(profile);
 	}
 
 	private FirefoxProfile getFireFoxProfile() {
@@ -151,8 +160,15 @@ public class WebDriverFixture {
 		profile.setAssumeUntrustedCertificateIssuer(false);
 		profile.setPreference("security.mixed_content.block_active_content", false);
 		profile.setPreference("security.mixed_content.block_display_content", true);
+		logger.debug("proxyHost:\"" + System.getProperty("http.proxyHost") + "\"");
+		logger.debug("proxyPort:\"" + System.getProperty("http.proxyPort") + "\"");
+		logger.debug("nonProxyHosts:\"" + System.getProperty("http.nonProxyHosts") + "\"");
+		
+		
 		if (System.getProperty("http.proxyHost") != null) {
 			logger.info("Setting up proxy: {}", System.getProperty("http.proxyHost"));
+			profile.setPreference("network.proxy.user_name", System.getProperty("http.proxyUser"));
+			profile.setPreference("network.proxy.password", System.getProperty("http.proxyPassword"));
 			profile.setPreference("network.proxy.type", 1);
 			profile.setPreference("network.proxy.http", System.getProperty("http.proxyHost"));
 			profile.setPreference("network.proxy.http_port", System.getProperty("http.proxyPort"));
