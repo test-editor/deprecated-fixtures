@@ -50,7 +50,7 @@ public class NgOneWebDriverFixture extends WebDriverFixture {
 	protected void configureDriver() {
 		super.configureDriver();
 		ngWebDriver = new NgWebDriver((JavascriptExecutor) getDriver());
-		getDriver().manage().timeouts().setScriptTimeout(5, TimeUnit.SECONDS);
+		getDriver().manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
 	}
 
 	/**

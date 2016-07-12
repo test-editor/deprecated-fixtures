@@ -210,7 +210,6 @@ public class WebFixture implements StoppableFixture, Fixture {
 					throw new StopTestException(logMessage);
 				}
 			}
-
 			webDriver = new FirefoxDriver();
 		} catch (WebDriverException e) {
 			// here will be thrown an exception if installed browser was not

@@ -16,6 +16,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +33,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.MarionetteDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testeditor.fixture.core.interaction.FixtureMethod;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
@@ -87,10 +92,11 @@ public class WebDriverFixture {
 		}
 		configureDriver();
 		return driver;
-	}
+    }
 
 	@FixtureMethod
 	public WebDriver startFireFoxPortable(String browserPath) {
+		logger.info("Starting firefox portable: {}", browserPath);
 		FirefoxBinary binary = new FirefoxBinary(new File(browserPath));
 		FirefoxProfile profile = getFireFoxProfile();
 		driver = new FirefoxDriver(binary, profile);
@@ -110,6 +116,14 @@ public class WebDriverFixture {
 	}
 
 	private void launchFirefoxMarionetteDriver() {
+//		Authenticator.setDefault(new Authenticator() {
+//	          @Override
+//	         public PasswordAuthentication getPasswordAuthentication() {
+//	               if(getRequestorType() == Authenticator.RequestorType.PROXY) 
+//	                   return new PasswordAuthentication("your_proxy_username", "your_proxy_password".toCharArray());
+//	               else
+//	                  return super.getPasswordAuthentication();
+//	         }});
 		MarionetteDriverManager.getInstance().setup("v0.7.1");
 		driver = new MarionetteDriver();
 		registerShutdownHook(driver);
@@ -130,7 +144,7 @@ public class WebDriverFixture {
 
 	private void launchFirefox() {
 		FirefoxProfile profile = getFireFoxProfile();
-		driver = new FirefoxDriver();// profile);
+		driver = new FirefoxDriver(profile);
 	}
 
 	private FirefoxProfile getFireFoxProfile() {
@@ -145,8 +159,15 @@ public class WebDriverFixture {
 		profile.setAssumeUntrustedCertificateIssuer(false);
 		profile.setPreference("security.mixed_content.block_active_content", false);
 		profile.setPreference("security.mixed_content.block_display_content", true);
+		logger.debug("proxyHost:\"" + System.getProperty("http.proxyHost") + "\"");
+		logger.debug("proxyPort:\"" + System.getProperty("http.proxyPort") + "\"");
+		logger.debug("nonProxyHosts:\"" + System.getProperty("http.nonProxyHosts") + "\"");
+		
+		
 		if (System.getProperty("http.proxyHost") != null) {
 			logger.info("Setting up proxy: {}", System.getProperty("http.proxyHost"));
+			profile.setPreference("network.proxy.user_name", System.getProperty("http.proxyUser"));
+			profile.setPreference("network.proxy.password", System.getProperty("http.proxyPassword"));
 			profile.setPreference("network.proxy.type", 1);
 			profile.setPreference("network.proxy.http", System.getProperty("http.proxyHost"));
 			profile.setPreference("network.proxy.http_port", System.getProperty("http.proxyPort"));
@@ -194,6 +215,41 @@ public class WebDriverFixture {
 		WebElement element = getWebElement(elementLocator);
 		return element.getText();
 	}
+	
+	@FixtureMethod
+	public void selectElementInSelection(String elementLocator, String value) throws InterruptedException{
+		clickOn(elementLocator);
+		Thread.sleep(300);
+		WebElement element = getWebElement(elementLocator);
+	    new Select(element).selectByVisibleText(value);
+		//logger.trace("Selected value {} in selection {}", value, elementLocator);
+	}
+	
+	@FixtureMethod
+	public Map<String, String>  getOptionsInSelection(String elementLocator) throws InterruptedException {
+		clickOn(elementLocator);
+		Thread.sleep(300);
+		Map<String, String> namesOfAllSelectedOptions = new HashMap<String, String>();
+		Select selection = new Select(getWebElement(elementLocator));
+		List<WebElement> allSelectedOptions;allSelectedOptions = selection.getAllSelectedOptions();
+		for (WebElement webElement : allSelectedOptions) {
+			namesOfAllSelectedOptions.put(webElement.getText(), webElement.getText());
+		}
+		return namesOfAllSelectedOptions;
+	}
+	
+	@FixtureMethod
+	public void moveToElementAndClick(String elementLoacator) {
+		WebElement element = getWebElement(elementLoacator);
+		Actions actions = new Actions(driver);
+		actions.moveToElement(element).click().perform();
+	}
+	
+	@FixtureMethod
+	public Boolean checkEnabled(String elementLoacator) {
+		WebElement element = getWebElement(elementLoacator);
+		return element.isEnabled();
+	}
 
 	protected WebElement getWebElement(String elementLocator) {
 		if (exeuteScript != null) {
@@ -212,6 +268,9 @@ public class WebDriverFixture {
 		}
 		if (elementLocator.startsWith("[id]")) {
 			result = driver.findElement(By.id(extractLocatorStringFrom(elementLocator)));
+		}
+		if (elementLocator.startsWith("[css]")) {
+			result = driver.findElement(By.cssSelector(extractLocatorStringFrom(elementLocator)));
 		}
 		if (result == null) {
 			result = driver.findElement(By.name(elementLocator));
@@ -239,4 +298,5 @@ public class WebDriverFixture {
 	protected String extractLocatorStringFrom(String elementLocator) {
 		return elementLocator.substring(elementLocator.indexOf(']') + 1);
 	}
+	
 }

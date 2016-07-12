@@ -51,7 +51,7 @@ interaction type click {
 	method = NgMdWebDriverFixture.clickOn(element)	
 }
 
-interaction type selectInSlection {
+interaction type selectInSelection {
 	template = "select " ${value} "in" ${element}
 	method = NgMdWebDriverFixture.selectElementInSelection(element,value)	
 }
@@ -71,10 +71,18 @@ interaction type selectCurrentDate {
 	method = NgMdWebDriverFixture.selectCurrentDate
 }
 
+
 interaction type executeScript {
 	label = "Execute Script"
 	template = "Execute script" ${value}
 	method = NgMdWebDriverFixture.setExecuteScript(value)	
+}
+
+interaction type checkEnabled {
+	label = "check enabled"
+	template = "check element " ${element} " enabled"
+	method = NgMdWebDriverFixture.checkEnabled(element)	
+
 }
 
 element type BrowserApplication {
@@ -86,11 +94,11 @@ element type field {
 }
 
 element type button {
-	interactions = click, sendEnter
+	interactions = click, sendEnter, checkEnabled
 }
 
 element type selection {
-	interactions = click, sendEnter, selectInSlection, getAvailableOptions
+	interactions = click, sendEnter, selectInSelection, getAvailableOptions
 }
 
 element type dateTimePicker {
