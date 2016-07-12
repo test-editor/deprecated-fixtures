@@ -46,7 +46,6 @@ public class WebDriverFixture {
 	private WebDriver driver;
 	private Logger logger = LogManager.getLogger(WebDriverFixture.class);
 	private String exeuteScript = null;
-	private List<WebElement> allSelectedOptions;
 
 	@FixtureMethod
 	public void waitSeconds(long timeToWait) throws InterruptedException {
@@ -232,7 +231,7 @@ public class WebDriverFixture {
 		Thread.sleep(300);
 		Map<String, String> namesOfAllSelectedOptions = new HashMap<String, String>();
 		Select selection = new Select(getWebElement(elementLocator));
-		allSelectedOptions = selection.getAllSelectedOptions();
+		List<WebElement> allSelectedOptions;allSelectedOptions = selection.getAllSelectedOptions();
 		for (WebElement webElement : allSelectedOptions) {
 			namesOfAllSelectedOptions.put(webElement.getText(), webElement.getText());
 		}
@@ -249,11 +248,7 @@ public class WebDriverFixture {
 	@FixtureMethod
 	public Boolean checkEnabled(String elementLoacator) {
 		WebElement element = getWebElement(elementLoacator);
-		boolean enabled = element.isEnabled();
-		if (!enabled) {
-			return null; 
-		}
-		return enabled;
+		return element.isEnabled();
 	}
 
 	protected WebElement getWebElement(String elementLocator) {

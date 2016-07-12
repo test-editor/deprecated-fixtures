@@ -59,7 +59,7 @@ interaction type click {
 	method = WebDriverFixture.clickOn(element)	
 }
 interaction type moveToElementAndClick {
-	label = "moveToElementAndClick"
+	label = "move to element and click"
 	template = "move to" ${element} "and click"
 	method = WebDriverFixture.moveToElementAndClick(element)	
 }
