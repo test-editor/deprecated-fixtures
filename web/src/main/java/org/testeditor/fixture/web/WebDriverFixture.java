@@ -159,13 +159,13 @@ public class WebDriverFixture {
 		profile.setAssumeUntrustedCertificateIssuer(false);
 		profile.setPreference("security.mixed_content.block_active_content", false);
 		profile.setPreference("security.mixed_content.block_display_content", true);
+		
 		logger.debug("proxyHost:\"" + System.getProperty("http.proxyHost") + "\"");
 		logger.debug("proxyPort:\"" + System.getProperty("http.proxyPort") + "\"");
 		logger.debug("nonProxyHosts:\"" + System.getProperty("http.nonProxyHosts") + "\"");
 		
-		
 		if (System.getProperty("http.proxyHost") != null) {
-			logger.info("Setting up proxy: {}", System.getProperty("http.proxyHost"));
+			logger.info("Setting up proxy: {} on port {} with nonProxyHosts {} ", System.getProperty("http.proxyHost"), System.getProperty("http.proxyPort"), System.getProperty("http.nonProxyHosts") );
 			profile.setPreference("network.proxy.user_name", System.getProperty("http.proxyUser"));
 			profile.setPreference("network.proxy.password", System.getProperty("http.proxyPassword"));
 			profile.setPreference("network.proxy.type", 1);
