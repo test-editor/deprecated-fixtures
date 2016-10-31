@@ -29,7 +29,7 @@ import org.testeditor.fixture.core.exceptions.StopTestException;
 import fitnesse.slim.fixtureInteraction.DefaultInteraction;
 
 /**
- * Interaction for real-time test logging.<br />
+ * Interaction for real-time test logging.<br>
  * 
  * FitNesse provides the option of user-specific interaction. We use this hook
  * to provide a test logging outside the default FitNesse logging. The
@@ -41,6 +41,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 	public static final String WAIT_PROPERTY = "waits.after.teststep";
 
 	static private Map<String, List<StoppableFixture>> stoppableFixtures = new TreeMap<String, List<StoppableFixture>>();
+	static private List<StoppableFixture> stoppableFixturesList = new ArrayList<StoppableFixture>();
 
 	public TestEditorLoggingInteraction() {
 		super();
@@ -78,6 +79,7 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 				stoppableFixtures.put(name, new ArrayList<StoppableFixture>());
 			}
 			stoppableFixtures.get(name).add((StoppableFixture) object);
+			stoppableFixturesList.add((StoppableFixture) object);
 		}
 
 		return object;
@@ -134,10 +136,12 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 				tearDownAllFixtures(true);
 				throw (StopTestException) e.getCause();
 			} else if (e.getTargetException() instanceof ContinueTestException) {
+				logger.debug(logMessage + e.getCause().getMessage(), e);
 				throw (ContinueTestException) e.getTargetException();
 			} else if (e.getCause() instanceof ContinueTestException) {
 				throw (ContinueTestException) e.getCause();
 			} else {
+				logger.debug(logMessage + e.getCause().getMessage(), e);
 				logger.error(logMessage + e.getTargetException().getMessage());
 				Throwable targetExcpetion = e.getTargetException();
 				if (e.getTargetException().getCause() != null) {
@@ -148,7 +152,11 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 					logger.error(stackTraceElement);
 				}
 				tearDownAllFixtures(true);
-				throw new StopTestException("An unexpected error occurred: " + e.getTargetException().getMessage());
+				if (e.getTargetException() != null) {
+					throw new StopTestException("An unexpected error occurred: " + e.getTargetException().getMessage(),
+							e.getTargetException());
+				}
+				throw new StopTestException("An unexpected error occurred: " + e.getMessage(), e);
 			}
 		} catch (Exception e) {
 			logger.error(logMessage + e.getMessage(), e);
@@ -229,15 +237,6 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 
 	/**
 	 * Tries to shut down the fixture class.
-	 * 
-	 * @param instance
-	 *            instance of the fixture class being used to invoke the fixture
-	 *            methods
-	 * @return <code>true</code>, if the instance supports being stopped and did
-	 *         so successfully; <code>false</code>, if instance is
-	 *         <code>null</code>, instance does not implement interface
-	 *         <code>StoppableFixture</code> or instance returns
-	 *         <code>false</code> from method <code>tearDown()</code>.
 	 */
 	public static void tearDownAllFixtures() {
 		tearDownAllFixtures(false);
@@ -245,19 +244,17 @@ public class TestEditorLoggingInteraction extends DefaultInteraction {
 
 	public static void tearDownAllFixtures(boolean fail) {
 
-		for (List<StoppableFixture> list : stoppableFixtures.values()) {
-			for (StoppableFixture object : list) {
-
-				try {
-					logger.debug("calling tearDwon on object of type " + object.getClass().getName()
-							+ " stoppableFixtures ");
-					object.tearDown(fail);
-				} catch (Throwable e) {
-					String logMessage = "Method : StoppableFixture.tearDown()";
-					logger.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);
-				}
+		for (StoppableFixture object : stoppableFixturesList) {
+			try {
+				logger.debug(
+						"calling tearDwon on object of type " + object.getClass().getName() + " stoppableFixtures ");
+				object.tearDown(fail);
+			} catch (Throwable e) {
+				String logMessage = "Method : StoppableFixture.tearDown()";
+				logger.error(logMessage + " " + e.getClass().getName() + ":" + e.getMessage(), e);
 			}
 		}
+		stoppableFixturesList.clear();
 		stoppableFixtures.clear();
 	}
 

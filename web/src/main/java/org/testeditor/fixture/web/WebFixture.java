@@ -63,11 +63,11 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * Creates the element list instance representing the GUI-Map for widget
 	 * element id's of an application and the user defined names for this
 	 * represented GUI element. Often used in a FitNesse ScenarioLibrary for
-	 * configuration purpose. <br />
+	 * configuration purpose. <br>
 	 * 
-	 * FitNesse usage..: |set elementlist|arg1| <br/>
-	 * FitNesse example: |set elementlist|../ElementList/content.txt| <br />
-	 * <br />
+	 * FitNesse usage..: |set elementlist|arg1| <br>
+	 * FitNesse example: |set elementlist|../ElementList/content.txt| <br>
+	 * <br>
 	 * 
 	 * @param elementList
 	 *            relative path of the element list content.txt wiki site on a
@@ -129,11 +129,11 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Opens a specific browser (e.g. Firefox, Google-Chrome or Microsoft
 	 * Internet Explorer), it is possible to use 'firefox', 'chrome' or 'ie' as
-	 * the browserName. <br />
+	 * the browserName. <br>
 	 * 
-	 * FitNesse usage..: |open Browser|arg1| <br />
-	 * FitNesse example: |open Browser|firefox| <br />
-	 * <br />
+	 * FitNesse usage..: |open Browser|arg1| <br>
+	 * FitNesse example: |open Browser|firefox| <br>
+	 * <br>
 	 * 
 	 * Please note that for Firefox there is a system property
 	 * 'webdriver.firefox.bin' which should be set to the path of the used
@@ -158,6 +158,10 @@ public class WebFixture implements StoppableFixture, Fixture {
 				DesiredCapabilities cap = DesiredCapabilities.internetExplorer();
 				cap.setCapability(CapabilityType.TAKES_SCREENSHOT, false);
 				cap.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
+				cap.setCapability(InternetExplorerDriver.LOG_LEVEL, "DEBUG");
+				cap.setCapability(InternetExplorerDriver.LOG_FILE, "c:\\temp\\iewebdriver.log");
+				cap.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
+
 				LOGGER.info("INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS set to true");
 				webDriver = new InternetExplorerDriver(cap);
 				setWebDriverOpen(true);
@@ -227,13 +231,13 @@ public class WebFixture implements StoppableFixture, Fixture {
 	}
 
 	/**
-	 * Navigates to a new web page in the current browser window. <br />
+	 * Navigates to a new web page in the current browser window. <br>
 	 * 
-	 * Usage for FitNesse: |navigate to Url|http://www.example.org|<br />
+	 * Usage for FitNesse: |navigate to Url|http://www.example.org|<br>
 	 * 
-	 * FitNesse usage..: |navigate to Url|arg1| <br />
-	 * FitNesse example: |navigate to Url|http://www.example.org| <br />
-	 * <br />
+	 * FitNesse usage..: |navigate to Url|arg1| <br>
+	 * FitNesse example: |navigate to Url|http://www.example.org| <br>
+	 * <br>
 	 * 
 	 * @param url
 	 *            URL of page to navigate to
@@ -248,9 +252,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * Checks if a given value is empty (i.e. a <code>null</code>-value or an
 	 * empty string.
 	 * 
-	 * FitNesse usage..: |assert|arg1|is empty| <br />
-	 * FitNesse example: |assert|Some Text|is empty| <br />
-	 * <br />
+	 * FitNesse usage..: |assert|arg1|is empty| <br>
+	 * FitNesse example: |assert|Some Text|is empty| <br>
+	 * <br>
 	 * 
 	 * @param value
 	 *            the value to compare
@@ -269,9 +273,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * Checks if a given value is not empty (i.e. not a <code>null</code>-value
 	 * or an empty string.
 	 * 
-	 * FitNesse usage..: |assert|arg1|is not empty| <br />
-	 * FitNesse example: |assert|Some Text|is not empty| <br />
-	 * <br />
+	 * FitNesse usage..: |assert|arg1|is not empty| <br>
+	 * FitNesse example: |assert|Some Text|is not empty| <br>
+	 * <br>
 	 * 
 	 * @param value
 	 *            the value to compare
@@ -285,9 +289,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Compares a given value with another value for equality.
 	 * 
-	 * FitNesse usage..: |assert|arg1|is equal to|arg2| <br />
-	 * FitNesse example: |assert|Some Text|is equal to|Some Other Text| <br />
-	 * <br />
+	 * FitNesse usage..: |assert|arg1|is equal to|arg2| <br>
+	 * FitNesse example: |assert|Some Text|is equal to|Some Other Text| <br>
+	 * <br>
 	 * 
 	 * @param first
 	 *            the first value to compare
@@ -311,10 +315,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Compares a given value with another value for inequality.
 	 * 
-	 * FitNesse usage..: |assert|arg1|is not equal to|arg2| <br />
-	 * FitNesse example: |assert|Some Text|is not equal to|Some Other Text|
-	 * <br />
-	 * <br />
+	 * FitNesse usage..: |assert|arg1|is not equal to|arg2| <br>
+	 * FitNesse example: |assert|Some Text|is not equal to|Some Other Text| <br>
+	 * <br>
 	 * 
 	 * @param first
 	 *            the first value to compare
@@ -330,9 +333,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Checks if a given string is found within another string.
 	 * 
-	 * FitNesse usage..: |assert|arg1|contains|arg2| <br />
-	 * FitNesse example: |assert|Some Text|contains|me Te| <br />
-	 * <br />
+	 * FitNesse usage..: |assert|arg1|contains|arg2| <br>
+	 * FitNesse example: |assert|Some Text|contains|me Te| <br>
+	 * <br>
 	 * 
 	 * @param first
 	 *            the string to analyze
@@ -355,13 +358,13 @@ public class WebFixture implements StoppableFixture, Fixture {
 
 	/**
 	 * Searches elements using XPath from the element list. This test asserts,
-	 * that the XPath query yields at least one hit.<br />
-	 * <br />
+	 * that the XPath query yields at least one hit.<br>
+	 * <br>
 	 * 
-	 * FitNesse usage..: |assert element|arg1|found|[arg2, arg3, ...]| <br />
+	 * FitNesse usage..: |assert element|arg1|found|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |assert element|TextboxInRow{0}Col{1}|found|[5, 3]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -387,11 +390,10 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * Searches elements by key from the element list. This method asserts, that
 	 * the element does not exists.
 	 * 
-	 * FitNesse usage..: |assert element|arg1|not found|[arg2, arg3, ...]|
-	 * <br />
+	 * FitNesse usage..: |assert element|arg1|not found|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |assert element|TextboxInRow{0}Col{1}|not found|[5, 3]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -426,12 +428,12 @@ public class WebFixture implements StoppableFixture, Fixture {
 
 	/**
 	 * Finds an element on the web page by its Element List key and inputs a
-	 * special key stroke in its context. <br />
-	 * <br />
+	 * special key stroke in its context. <br>
+	 * <br>
 	 * 
-	 * FitNesse usage..: |enter special key|arg1| <br />
-	 * FitNesse example: |enter special key|RIGHT| <br />
-	 * <br />
+	 * FitNesse usage..: |enter special key|arg1| <br>
+	 * FitNesse example: |enter special key|RIGHT| <br>
+	 * <br>
 	 * 
 	 * @param key
 	 *            the key stroke to enter (see
@@ -462,13 +464,13 @@ public class WebFixture implements StoppableFixture, Fixture {
 	}
 
 	/**
-	 * Finds a textbox by its Element List key and gets its value. <br />
-	 * <br />
+	 * Finds a textbox by its Element List key and gets its value. <br>
+	 * <br>
 	 * 
-	 * FitNesse usage..: |$var=|read textbox;|arg1|[arg2, arg3, ...]| <br />
+	 * FitNesse usage..: |$var=|read textbox;|arg1|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |$result=|read textbox;|TextboxInRow{0}Col{1}|[5, 3]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -484,13 +486,13 @@ public class WebFixture implements StoppableFixture, Fixture {
 	}
 
 	/**
-	 * Finds a combobox by its Element List key and gets its value. <br />
-	 * <br />
+	 * Finds a combobox by its Element List key and gets its value. <br>
+	 * <br>
 	 * 
-	 * FitNesse usage..: |$var=|read combobox;|arg1|[arg2, arg3, ...]| <br />
+	 * FitNesse usage..: |$var=|read combobox;|arg1|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |$result=|read combobox;|ComboboxInRow{0}Col{1}|[5, 3]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -506,13 +508,13 @@ public class WebFixture implements StoppableFixture, Fixture {
 	}
 
 	/**
-	 * Finds a checkbox by its Element List key and gets its value. <br />
-	 * <br />
+	 * Finds a checkbox by its Element List key and gets its value. <br>
+	 * <br>
 	 * 
-	 * FitNesse usage..: |$var=|read checkbox;|arg1|[arg2, arg3, ...]| <br />
+	 * FitNesse usage..: |$var=|read checkbox;|arg1|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |$result=|read checkbox;|CheckboxInRow{0}Col{1}|[5, 3]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -538,14 +540,14 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Finds an element by its Element List key and gets the value of an
 	 * associated attribute (e.g. <code>"value"</code> or
-	 * <code>"innerText"</code> ). <br />
-	 * <br />
+	 * <code>"innerText"</code> ). <br>
+	 * <br>
 	 * 
 	 * FitNesse usage..: |$var=|read attribute|arg1|from field;|arg2|[arg3,
-	 * arg4, ...]| <br />
+	 * arg4, ...]| <br>
 	 * FitNesse example: |$result=|read attribute|value|from
-	 * field;|CheckboxInRow{0}Col{1}|[5, 3]| <br />
-	 * <br />
+	 * field;|CheckboxInRow{0}Col{1}|[5, 3]| <br>
+	 * <br>
 	 * 
 	 * @param attribute
 	 *            the attribute to get from the target element
@@ -595,12 +597,12 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Inserts the given value into an input field and checks if input was
 	 * successful. The technical locator of the field gets identified by the
-	 * element list matching the given key. <br />
+	 * element list matching the given key. <br>
 	 * 
-	 * FitNesse usage..: |insert|arg1|into field;|arg2|[arg3, arg4, ...]| <br />
+	 * FitNesse usage..: |insert|arg1|into field;|arg2|[arg3, arg4, ...]| <br>
 	 * FitNesse example: |insert|Some Text|into field;|TextboxInRow{0}Col{1}|[5,
-	 * 3]| <br />
-	 * <br />
+	 * 3]| <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -609,7 +611,6 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * @param replaceArgs
 	 *            values to replace the place holders in the element list entry
 	 *            with
-	 * @return true if input was successful, otherwise false
 	 */
 	public void insertIntoField(String value, String elementListKey, String... replaceArgs) {
 
@@ -642,7 +643,6 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 *            key to find the technical locator
 	 * @param value
 	 *            value for the input
-	 * @return true if input was successful, otherwise false
 	 */
 	public void insertIntoField(String value, String elementListKey) {
 		insertIntoField(value, elementListKey, new String[] {});
@@ -650,11 +650,11 @@ public class WebFixture implements StoppableFixture, Fixture {
 
 	/**
 	 * Clears a given input field. The technical locator of the field gets
-	 * identified by the element list matching the given key.<br />
+	 * identified by the element list matching the given key.<br>
 	 * 
-	 * FitNesse usage..: |clear;|arg1|[arg2, arg3, ...]| <br />
-	 * FitNesse example: |clear;|TextboxInRow{0}Col{1}|[5, 3]| <br />
-	 * <br />
+	 * FitNesse usage..: |clear;|arg1|[arg2, arg3, ...]| <br>
+	 * FitNesse example: |clear;|TextboxInRow{0}Col{1}|[5, 3]| <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -691,12 +691,12 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Checks if a given input field is enabled (i.e. editable). The technical
 	 * locator of the field gets identified by the element list matching the
-	 * given key.<br />
+	 * given key.<br>
 	 * 
-	 * FitNesse usage..: |assert element|arg1|enabled|[arg2, arg3, ...]| <br />
+	 * FitNesse usage..: |assert element|arg1|enabled|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |assert element|TextboxInRow{0}Col{1}|enabled|[5, 3]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -720,12 +720,12 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Checks if a given input field is not enabled (i.e. not editable). The
 	 * technical locator of the field gets identified by the element list
-	 * matching the given key.<br />
+	 * matching the given key.<br>
 	 * 
-	 * FitNesse usage..: |assert element|arg1|disabled|[arg2, arg3, ...]| <br />
+	 * FitNesse usage..: |assert element|arg1|disabled|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |assert element|TextboxInRow{0}Col{1}|disabled|[5, 3]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -740,11 +740,11 @@ public class WebFixture implements StoppableFixture, Fixture {
 
 	/**
 	 * Waits for the given period of time before executing the next command.
-	 * <br />
+	 * <br>
 	 * 
-	 * FitNesse usage..: |wait seconds|arg1| <br />
-	 * FitNesse example: |wait seconds|2| <br />
-	 * <br />
+	 * FitNesse usage..: |wait seconds|arg1| <br>
+	 * FitNesse example: |wait seconds|2| <br>
+	 * <br>
 	 * 
 	 * @param timeToWait
 	 *            Time to wait in seconds
@@ -770,27 +770,28 @@ public class WebFixture implements StoppableFixture, Fixture {
 	}
 
 	/**
-	 * Clicks on a element or button. <br />
-	 * <br />
+	 * Clicks on a element or button. <br>
+	 * <br>
 	 * 
-	 * FitNesse usage..: |click;|arg1|[arg2, arg3, ...]| <br />
-	 * FitNesse example: |click;|ButtonInRow{0}Col{1}|[5, 3]| <br />
-	 * <br />
+	 * FitNesse usage..: |click;|arg1|[arg2, arg3, ...]| <br>
+	 * FitNesse example: |click;|ButtonInRow{0}Col{1}|[5, 3]| <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
 	 * @param replaceArgs
 	 *            values to replace the place holders in the element list entry
 	 *            with
-	 * @return true if click was successful; otherwise false
 	 */
-	public void click(String elementListKey, String... replaceArgs) {
+	public boolean click(String elementListKey, String... replaceArgs) {
 
 		WebElement element = findWebelement(elementListKey, replaceArgs);
 
 		if (element != null && element.isDisplayed()) {
 			element.click();
+			return true;
 		}
+		return false;
 
 	}
 
@@ -800,19 +801,18 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
-	 * @return true if click was successful; otherwise false
 	 */
-	public void click(String elementListKey) {
-		click(elementListKey, new String[] {});
+	public boolean click(String elementListKey) {
+		return click(elementListKey, new String[] {});
 	}
 
 	/**
-	 * Double clicks on a element or button. <br />
-	 * <br />
+	 * Double clicks on a element or button. <br>
+	 * <br>
 	 * 
-	 * FitNesse usage..: |double click;|arg1|[arg2, arg3, ...]| <br />
-	 * FitNesse example: |double click;|ButtonInRow{0}Col{1}|[5, 3]| <br />
-	 * <br />
+	 * FitNesse usage..: |double click;|arg1|[arg2, arg3, ...]| <br>
+	 * FitNesse example: |double click;|ButtonInRow{0}Col{1}|[5, 3]| <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -840,9 +840,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * If the text is not found immediately, this method will retry for as long
 	 * as this class would normally also wait for a widget to found.
 	 * 
-	 * FitNesse usage..: |wait for text|arg1| <br />
-	 * FitNesse example: |wait for text|Login successful| <br />
-	 * <br />
+	 * FitNesse usage..: |wait for text|arg1| <br>
+	 * FitNesse example: |wait for text|Login successful| <br>
+	 * <br>
 	 * 
 	 * @param text
 	 *            to be searched for
@@ -875,9 +875,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Searches for a given text in the HTML source and returns true if found.
 	 * 
-	 * FitNesse usage..: |text|arg1|is visible| <br />
-	 * FitNesse example: |text|Login successful|is visible| <br />
-	 * <br />
+	 * FitNesse usage..: |text|arg1|is visible| <br>
+	 * FitNesse example: |text|Login successful|is visible| <br>
+	 * <br>
 	 * 
 	 * @param text
 	 *            to be searched for
@@ -897,9 +897,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Searches for a given text in the HTML source and returns true if found.
 	 * 
-	 * FitNesse usage..: |text|arg1|is visible| <br />
-	 * FitNesse example: |text|Login successful|is visible| <br />
-	 * <br />
+	 * FitNesse usage..: |text|arg1|is visible| <br>
+	 * FitNesse example: |text|Login successful|is visible| <br>
+	 * <br>
 	 * 
 	 * @param text
 	 *            to be searched for
@@ -934,9 +934,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * Searches for a given text in the HTML source and returns true if not
 	 * found.
 	 * 
-	 * FitNesse usage..: |text|arg1|is unvisible| <br />
-	 * FitNesse example: |text|Login successful|is unvisible| <br />
-	 * <br />
+	 * FitNesse usage..: |text|arg1|is unvisible| <br>
+	 * FitNesse example: |text|Login successful|is unvisible| <br>
+	 * <br>
 	 * 
 	 * @param text
 	 *            to be searched for
@@ -956,11 +956,10 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Close the browser instance.
 	 * 
-	 * FitNesse usage..: |close browser| <br />
-	 * FitNesse example: |close browser| <br />
-	 * <br />
+	 * FitNesse usage..: |close browser| <br>
+	 * FitNesse example: |close browser| <br>
+	 * <br>
 	 * 
-	 * @return always true to show inside FitNesse a positive result
 	 */
 	public void closeBrowser() {
 		// checks if Browser is Chrome because Chromedriver does not function
@@ -987,9 +986,9 @@ public class WebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Simulates a MouseOver on a Menu. Moves to the given Gui-Element.
 	 * 
-	 * FitNesse usage..: |move to element;|arg1|[arg2, arg3, ...]| <br />
-	 * FitNesse example: |move to element;|IconInRow{0}Col{1}|[5, 3]| <br />
-	 * <br />
+	 * FitNesse usage..: |move to element;|arg1|[arg2, arg3, ...]| <br>
+	 * FitNesse example: |move to element;|IconInRow{0}Col{1}|[5, 3]| <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            the Gui-Element where to move.
@@ -1024,7 +1023,6 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 *            key of element in elementList.conf.
 	 * @param menuEntryKey
 	 *            key of menu.
-	 * @return true if element is found and menu is activated.
 	 */
 	public void moveToElementAndClickMenu(String elementListKey, String menuEntryKey) {
 
@@ -1127,7 +1125,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 * This Method finds WebElements with a given {@link By}. If the given
 	 * {@link By} is an XPath expression and matches multiple elements, this
 	 * method will return the first visible element (as determined by selenium's
-	 * {@link isDisplayed} method) that matches.
+	 * isDisplayed method) that matches.
 	 * 
 	 * @param context
 	 *            the search context or subtree to query. Argument
@@ -1236,6 +1234,7 @@ public class WebFixture implements StoppableFixture, Fixture {
 	 *            key in the ElementList, that isn't found.
 	 * @param e
 	 *            ElementKeyNotFoundException always thrown
+	 * @return an empty string
 	 */
 	protected String defaultHandelKeyNotFoundException(String elementListKey, ElementKeyNotFoundException e) {
 		ExceptionUtils.handleElementKeyNotFoundException(elementListKey, e);
@@ -1355,11 +1354,11 @@ public class WebFixture implements StoppableFixture, Fixture {
 
 	/**
 	 * Invalid JavaDoc: Sets the implicit wait timeout in seconds for each test
-	 * step.<br />
+	 * step.<br>
 	 * 
-	 * FitNesse usage..: |set timeout|arg1| <br />
-	 * FitNesse example: |set timeout|1| <br />
-	 * <br />
+	 * FitNesse usage..: |set timeout|arg1| <br>
+	 * FitNesse example: |set timeout|1| <br>
+	 * <br>
 	 * 
 	 * @param timeout
 	 *            timeout in seconds

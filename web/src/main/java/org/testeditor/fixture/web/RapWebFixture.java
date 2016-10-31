@@ -34,7 +34,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	 * Selects an option from an available drop down element by the visible
 	 * text.
 	 * 
-	 * <p/>
+	 * <p>
 	 * <b>Hint:</b> Doesn't work for drop down lists with duplicate entries.
 	 * 
 	 * @param value
@@ -88,7 +88,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	 * Selects an option from an available drop down element by the visible
 	 * text.
 	 * 
-	 * <p/>
+	 * <p>
 	 * <b>Hint:</b> Doesn't work for drop down lists with duplicate entries.
 	 * 
 	 * @param value
@@ -230,7 +230,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	 * Use
 	 * {@link #insertIntoDateField(String, String, String, String, String...)}
 	 * instead.
-	 * <p/>
+	 * <p>
 	 * 
 	 * Inserts the given date value into a date field. The technical locator of
 	 * the field gets identified by the element list matching the given key.
@@ -309,7 +309,7 @@ public class RapWebFixture extends AbstractWebFixture {
 
 	/**
 	 * Use {@link #insertIntoDateField(String, String, String, String)} instead.
-	 * <p/>
+	 * <p>
 	 * 
 	 * Inserts the given date value into a date field. The technical locator of
 	 * the field gets identified by the element list matching the given key.
@@ -336,7 +336,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	/**
 	 * Use {@link #insertIntoDateField(String, String, String, String )}
 	 * instead.
-	 * <p/>
+	 * <p>
 	 * 
 	 * Works just like
 	 * <code>insertIntoDateField(value, elementListKey, replaceArgs)</code>
@@ -832,7 +832,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	/**
 	 * Checks if a check-box or radio-button is selected.
 	 * 
-	 * <p />
+	 * <p>
 	 * (Horrible) Workaround to read RAP a check-box or radio-button. This
 	 * method gets the element (possibly by its id) and then reads its inner
 	 * HTML text. In RAP applications at least two {@code div} elements are
@@ -907,7 +907,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	/**
 	 * Checks if a check-box or radio-button is selected.
 	 * 
-	 * <p />
+	 * <p>
 	 * For more details see {@link #checkIsSelected(String, String...) }.
 	 * 
 	 * @param elementListKey
@@ -928,7 +928,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	/**
 	 * Checks if a check-box or radio-button is <b>not</b> selected.
 	 * 
-	 * <p />
+	 * <p>
 	 * For more details see {@link #checkIsSelected(String, String...) }.
 	 * 
 	 * @param elementListKey
@@ -949,7 +949,7 @@ public class RapWebFixture extends AbstractWebFixture {
 	/**
 	 * Checks if a check-box or radio-button is <b>not</b> selected.
 	 * 
-	 * <p />
+	 * <p>
 	 * For more details see {@link #checkIsSelected(String, String...) }.
 	 * 
 	 * @param elementListKey

@@ -97,13 +97,12 @@ public abstract class AbstractWebFixture implements StoppableFixture, Fixture {
 	 * Opens a specific browser (e.g. Firefox, Google-Chrome or Microsoft
 	 * Internet Explorer), it is possible to use 'firefox', 'chrome' or 'ie' as
 	 * browser name.
-	 * <p/>
 	 * 
 	 * 
 	 * For <b>Firefox</b> the path to the executable is needed:
-	 * -Dwebdriver.firefox.bin<br/>
+	 * -Dwebdriver.firefox.bin<br>
 	 * For <b>Internet Explorer</b> the path to the web driver is needed:
-	 * -Dwebdriver.ie.driver<br/>
+	 * -Dwebdriver.ie.driver<br>
 	 * For <b>Chrome</b> the path to the web driver is needed:
 	 * -Dwebdriver.chrome.driver
 	 * 
@@ -769,7 +768,7 @@ public abstract class AbstractWebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Searches for a given text on the available web element.
 	 * 
-	 * <p />
+	 * <p>
 	 * <b>Hint:</b> for input field use
 	 * {@link HtmlWebFixture#checkValueOfElement(String, String, String...)}
 	 * 
@@ -794,7 +793,7 @@ public abstract class AbstractWebFixture implements StoppableFixture, Fixture {
 	/**
 	 * Searches for a given text on the available web element.
 	 * 
-	 * <p />
+	 * <p>
 	 * <b>Hint:</b> for input field use
 	 * {@link HtmlWebFixture#checkValueOfElement(String, String)}
 	 * 

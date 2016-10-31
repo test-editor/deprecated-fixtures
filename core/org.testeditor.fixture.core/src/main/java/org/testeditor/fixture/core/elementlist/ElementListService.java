@@ -25,13 +25,12 @@ import org.apache.log4j.Logger;
 import org.testeditor.fixture.core.exceptions.ElementKeyNotFoundException;
 
 /**
- * This service provides access to the key-value pairs of an element list.
- * <br />
+ * This service provides access to the key-value pairs of an element list. <br>
  * 
  * Each FitNesse project which uses any Test-Editor fixtures should have an
  * element list stored inside the FitNesse project (see for example
  * .testeditor/DemoWebTests/FitNesseRoot/DemoWebTests/ElementListe/content.txt).
- * This list is just a wiki page with key-value pairs.<br />
+ * This list is just a wiki page with key-value pairs.<br>
  * 
  * Keys are used inside any test-cases in human readable type. The fixture
  * implementation on the other translates the keys into the values via this
@@ -113,7 +112,7 @@ public class ElementListService {
 		String property = properties.getProperty(key);
 
 		if (property == null) {
-			LOGGER.info(key + " was not found in properties " + properties);
+			LOGGER.info("'" + key + "' was not found in properties ");
 			throw new ElementKeyNotFoundException(key);
 		} else {
 			property = property.trim();

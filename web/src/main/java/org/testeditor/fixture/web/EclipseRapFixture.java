@@ -49,7 +49,6 @@ public class EclipseRapFixture extends WebFixture {
 	 * @param replaceArgs
 	 *            values to replace the place holders in the element list entry
 	 *            with
-	 * @return true if input was successful, otherwise false
 	 */
 	@Override
 	public void insertIntoField(String value, String elementListKey, String... replaceArgs) {
@@ -86,7 +85,7 @@ public class EclipseRapFixture extends WebFixture {
 	/**
 	 * Inserts the given date value into a date field. The technical locator of
 	 * the field gets identified by the element list matching the given key.
-	 * <br />
+	 * <br>
 	 * 
 	 * @param value
 	 *            value for the input
@@ -98,7 +97,6 @@ public class EclipseRapFixture extends WebFixture {
 	 * @param replaceArgs
 	 *            values to replace the place holders in the element list entry
 	 *            with
-	 * @return true if date was insert successful, otherwise false
 	 */
 	public void insertIntoDateField(String value, String dateFormat, String elementListKey, String... replaceArgs) {
 
@@ -159,7 +157,6 @@ public class EclipseRapFixture extends WebFixture {
 	 * @param elementListKey
 	 *            key to find the technical locator (the IE needs an extra
 	 *            /div[2] to locate the outer date div)
-	 * @return true if date was insert successful, otherwise false
 	 */
 	public void insertIntoDateField(String value, String dateFormat, String elementListKey) {
 		insertIntoDateField(value, dateFormat, elementListKey, new String[] {});
@@ -176,7 +173,6 @@ public class EclipseRapFixture extends WebFixture {
 	 * @param elementListKey
 	 *            key to find the technical locator (the IE needs an extra
 	 *            /div[2] to locate the outer date div)
-	 * @return true if date was insert successful, otherwise false
 	 */
 	public void insertIntoDateField(String value, String elementListKey) {
 		insertIntoDateField(value, DEFAULT_DATE_FORMAT, elementListKey, new String[] {});
@@ -281,10 +277,10 @@ public class EclipseRapFixture extends WebFixture {
 	 * represents a new or changed document/object, then the title will have an
 	 * asterisk (*) appended, which will be removed by this function.
 	 * 
-	 * FitNesse usage..: |read name of tab;|arg1|[arg2, arg3, ...]| <br />
+	 * FitNesse usage..: |read name of tab;|arg1|[arg2, arg3, ...]| <br>
 	 * FitNesse example: |read name of tab;|XPathToFindNewTabInRow{0}Col{1}|[5,
-	 * 3]| <br />
-	 * <br />
+	 * 3]| <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
@@ -313,10 +309,10 @@ public class EclipseRapFixture extends WebFixture {
 	 * Finds a validator icon by its element list locator and returns if it's
 	 * present.
 	 * 
-	 * FitNesse usage..: |check for validation image;|arg1|arg2|arg3| <br />
+	 * FitNesse usage..: |check for validation image;|arg1|arg2|arg3| <br>
 	 * FitNesse example: |check for validation image;|input_digits|9f835836|[]|
-	 * <br />
-	 * <br />
+	 * <br>
+	 * <br>
 	 * 
 	 * @param elementListKey
 	 *            key to find the technical locator
